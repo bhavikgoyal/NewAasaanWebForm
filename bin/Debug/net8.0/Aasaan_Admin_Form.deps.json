@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v8.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v8.0": {
+      "Aasaan_Admin_Form/1.0.0": {
+        "runtime": {
+          "Aasaan_Admin_Form.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Aasaan_Admin_Form/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
