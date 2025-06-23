@@ -103,16 +103,6 @@
 						<div class="col-md-6">
 							<input type="text" class="form-control" id="searchInput" placeholder="Search by Mobile Number...">
 						</div>
-						<div class="col-md-3">
-							<select class="form-select" id="isPaidFilter">
-								<option value="all" selected>All (Is Paid?)</option>
-								<option value="Yes">Yes</option>
-								<option value="No">No</option>
-							</select>
-						</div>
-						<div class="col-md-3">
-							<button id="searchButton" class="btn btn-primary w-100">Search</button>
-						</div>
 					</div>
 				</div>
 
@@ -161,12 +151,44 @@
 		document.addEventListener('DOMContentLoaded', function () {
 				const userDataBody = document.getElementById('userDataBody');
 				const searchInput = document.getElementById('searchInput');
-				const searchButton = document.getElementById('searchButton');
+				
 				const paginationContainer = document.querySelector('.pagination');
 				const showingInfoText = document.getElementById('showingInfoText');
 						let currentUsersData = [];
+										 let ignoreNextBlur = false;
 				const token = '@User.FindFirst("ApiToken")?.Value';
 				const baseApiUrl = 'https://localhost:7127';
+
+
+				document.addEventListener('mousedown', function (e) {
+								const isClickOnButton = e.target.closest('button') || e.target.closest('a.btn');
+								ignoreNextBlur = !!isClickOnButton;
+						});
+
+						 searchInput.addEventListener('blur', function () {
+								if (ignoreNextBlur) {
+										ignoreNextBlur = false;
+										return;
+								}
+								const mobileNumber = this.value.trim();
+								if (mobileNumber.length > 0) {
+										fetchSearchResults(1, mobileNumber);
+								}
+						});
+						// Optional: allow Enter key to also trigger search
+				searchInput.addEventListener('blur', function () {
+						if (ignoreNextBlur) {
+								ignoreNextBlur = false;
+								return;
+						}
+
+						const mobileNumber = this.value.trim();
+						if (mobileNumber.length > 0) {
+								fetchSearchResults(1, mobileNumber);
+						} else {
+								fetchAllUsers(); // if input is empty, reload all users
+						}
+				});
 
 				// --- FUNCTION 1: To get ALL users (no pagination) ---
 				async function fetchAllUsers() {
@@ -187,7 +209,7 @@
 								});
 
 								if (!response.ok) throw new Error(`API Error: ${response.statusText}`);
-
+								debugger
 								// This API returns a simple array, not a paginated object
 								const users = await response.json();
 								renderTable(users);
@@ -262,23 +284,22 @@
 								userDataBody.appendChild(row);
 						});
 				}
+		function renderPagination(currentPage, totalPages) {
+										paginationContainer.innerHTML = '';
+										if (totalPages <= 1) return;
 
-				function renderPagination(currentPage, totalPages) {
-						paginationContainer.innerHTML = '';
-						if (totalPages <= 1) return;
-						// Your existing pagination logic works fine here
-						paginationContainer.innerHTML += `<li class="page-item ${currentPage === 1 ? 'disabled' : ''}"><a class="page-link" href="#" data-page="${currentPage - 1}"><i class="fas fa-chevron-left"></i></a></li>`;
-						let pagesHtml = '';
-						for(let i=1; i<=totalPages; i++){
-								if(i === currentPage || (i <= 2) || (i >= totalPages-1) || (i >= currentPage-1 && i <= currentPage+1)){
-									 pagesHtml += `<li class="page-item ${i === currentPage ? 'active' : ''}"><a class="page-link" href="#" data-page="${i}">${i}</a></li>`;
-								} else if (pagesHtml.slice(-25) !== '<span>...</span></li>') {
-									 pagesHtml += `<li class="page-item disabled"><span class="page-link">...</span></li>`;
+										paginationContainer.innerHTML += `<li class="page-item ${currentPage === 1 ? 'disabled' : ''}"><a class="page-link" href="#" data-page="${currentPage - 1}"><i class="fas fa-chevron-left"></i></a></li>`;
+										let pagesHtml = '';
+										for (let i = 1; i <= totalPages; i++) {
+												if (i === currentPage || (i <= 2) || (i >= totalPages - 1) || (i >= currentPage - 1 && i <= currentPage + 1)) {
+														pagesHtml += `<li class="page-item ${i === currentPage ? 'active' : ''}"><a class="page-link" href="#" data-page="${i}">${i}</a></li>`;
+												} else if (pagesHtml.slice(-25) !== '<span>...</span></li>') {
+														pagesHtml += `<li class="page-item disabled"><span class="page-link">...</span></li>`;
+												}
+										}
+										paginationContainer.innerHTML += pagesHtml;
+										paginationContainer.innerHTML += `<li class="page-item ${currentPage === totalPages ? 'disabled' : ''}"><a class="page-link" href="#" data-page="${currentPage + 1}"><i class="fas fa-chevron-right"></i></a></li>`;
 								}
-						}
-						paginationContainer.innerHTML += pagesHtml;
-						paginationContainer.innerHTML += `<li class="page-item ${currentPage === totalPages ? 'disabled' : ''}"><a class="page-link" href="#" data-page="${currentPage + 1}"><i class="fas fa-chevron-right"></i></a></li>`;
-				}
 
 				function setLoadingState() {
 						 userDataBody.innerHTML = '<tr><td colspan="8" class="text-center">Loading...</td></tr>';
@@ -291,59 +312,40 @@
 						userDataBody.innerHTML = `<tr><td colspan="8" class="text-center text-danger">Failed to load data: ${error.message}</td></tr>`;
 				}
 
-				// --- EVENT HANDLERS ---
-				searchButton.addEventListener('click', () => {
-						const searchTerm = searchInput.value.trim();
-						if (searchTerm) {
-								// If there's a search term, call the search API
-								fetchSearchResults(1, searchTerm);
-						} else {
-								// If the search is cleared, call the get all API
-								fetchAllUsers();
-						}
-				});
-
-				searchInput.addEventListener('keyup', (event) => {
-						if (event.key === 'Enter') {
-								searchButton.click();
-						}
-				});
-
 				paginationContainer.addEventListener('click', (event) => {
 						event.preventDefault();
 						const pageLink = event.target.closest('a.page-link');
 						if (pageLink && pageLink.dataset.page) {
 								const page = parseInt(pageLink.dataset.page, 10);
-								// Pagination only works for search results, so always call fetchSearchResults
 								if (page > 0) {
 										fetchSearchResults(page, searchInput.value.trim());
 								}
 						}
 				});
 
-						userDataBody.addEventListener('click', function(event) {
-				
+			userDataBody.addEventListener('click', function(event) {
+
 				const editButton = event.target.closest('.edit-btn');
-				debugger;
-				if (!editButton) {
-						return;
-				}
+					debugger;
+					if (!editButton) {
+							return;
+					}
 
-				const userIdToEdit = parseInt(editButton.dataset.userid, 10);
+					const userIdToEdit = parseInt(editButton.dataset.userid, 10);
 
-				const userToEdit = currentUsersData.find(user => user.userID === userIdToEdit);
+					const userToEdit = currentUsersData.find(user => user.userID === userIdToEdit);
 
-				if (userToEdit) {
-						const userDataString = JSON.stringify(userToEdit);
+					if (userToEdit) {
+							const userDataString = JSON.stringify(userToEdit);
 
-						sessionStorage.setItem('userToEdit', userDataString);
+							sessionStorage.setItem('userToEdit', userDataString);
 
-						window.location.href = '/Home/EditUserDetails';
-				} else {
-						console.error('User not found in current data:', userIdToEdit);
-						alert('Could not find user data to edit.');
-				}
-		});
+							window.location.href = '/Home/EditUserDetails';
+					} else {
+							console.error('User not found in current data:', userIdToEdit);
+							alert('Could not find user data to edit.');
+					}
+			});
 
 
 				// Initial load on page start - call the "get all" API
