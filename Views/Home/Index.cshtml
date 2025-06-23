@@ -103,16 +103,16 @@
                         <div class="col-md-6">
                             <input type="text" class="form-control" id="searchInput" placeholder="Search by Mobile Number...">
                         </div>
-                        <div class="col-md-3">
+                        @* <div class="col-md-3">
                             <select class="form-select" id="isPaidFilter">
-                                <option value="all" selected>All (Is Paid?)</option>
+                                <option value="all" selected>All (Is Paid?)</option> 
                                 <option value="Yes">Yes</option>
                                 <option value="No">No</option>
                             </select>
-                        </div>
-                        <div class="col-md-3">
+                        </div> *@
+                        @* <div class="col-md-3">
                             <button id="searchButton" class="btn btn-primary w-100">Search</button>
-                        </div>
+                        </div> *@
                     </div>
                 </div>
 
@@ -156,12 +156,47 @@
         document.addEventListener('DOMContentLoaded', function () {
             const userDataBody = document.getElementById('userDataBody');
             const searchInput = document.getElementById('searchInput');
-            const searchButton = document.getElementById('searchButton');
             const paginationContainer = document.querySelector('.pagination');
             const showingInfoText = document.getElementById('showingInfoText');
 
             const token = '@User.FindFirst("ApiToken")?.Value';
             const baseApiUrl = 'https://localhost:7127';
+
+            let ignoreNextBlur = false;
+
+            // Prevent triggering blur search when clicking a button (like "Edit")
+            document.addEventListener('mousedown', function (e) {
+                const isClickOnButton = e.target.closest('button') || e.target.closest('a.btn');
+                ignoreNextBlur = !!isClickOnButton;
+            });
+
+            // Trigger search when input loses focus (blur), if at least 1 character typed
+            searchInput.addEventListener('blur', function () {
+                if (ignoreNextBlur) {
+                    ignoreNextBlur = false;
+                    return;
+                }
+                const mobileNumber = this.value.trim();
+                if (mobileNumber.length > 0) {
+                    fetchSearchResults(1, mobileNumber);
+                }
+            });
+
+            // Optional: allow Enter key to also trigger search
+                    searchInput.addEventListener('blur', function () {
+            if (ignoreNextBlur) {
+                ignoreNextBlur = false;
+                return;
+            }
+
+            const mobileNumber = this.value.trim();
+            if (mobileNumber.length > 0) {
+                fetchSearchResults(1, mobileNumber);
+            } else {
+                fetchAllUsers(); // if input is empty, reload all users
+            }
+        });
+
 
             // --- FUNCTION 1: To get ALL users (no pagination) ---
             async function fetchAllUsers() {
@@ -171,7 +206,6 @@
                 }
                 setLoadingState();
 
-                // Clear search input and hide pagination
                 searchInput.value = '';
                 paginationContainer.innerHTML = '';
 
@@ -183,7 +217,6 @@
 
                     if (!response.ok) throw new Error(`API Error: ${response.statusText}`);
 
-                    // This API returns a simple array, not a paginated object
                     const users = await response.json();
                     renderTable(users);
                     showingInfoText.textContent = `Showing ${users.length} of ${users.length} results found`;
@@ -222,7 +255,7 @@
                 }
             }
 
-            // --- HELPER FUNCTIONS (for cleaner code) ---
+            // --- HELPER FUNCTIONS ---
             function renderTable(users) {
                 userDataBody.innerHTML = '';
                 if (!users || users.length === 0) {
@@ -232,7 +265,6 @@
                 users.forEach(user => {
                     const isPaid = user.subscriptionStatus;
                     const row = document.createElement('tr');
-                    // This rendering logic is the same for both API calls
                     row.innerHTML = `
                         <td>${user.emailID || '-'}</td>
                         <td>${user.mobileNumber || '-'}</td>
@@ -250,14 +282,14 @@
             function renderPagination(currentPage, totalPages) {
                 paginationContainer.innerHTML = '';
                 if (totalPages <= 1) return;
-                // Your existing pagination logic works fine here
+
                 paginationContainer.innerHTML += `<li class="page-item ${currentPage === 1 ? 'disabled' : ''}"><a class="page-link" href="#" data-page="${currentPage - 1}"><i class="fas fa-chevron-left"></i></a></li>`;
                 let pagesHtml = '';
-                for(let i=1; i<=totalPages; i++){
-                    if(i === currentPage || (i <= 2) || (i >= totalPages-1) || (i >= currentPage-1 && i <= currentPage+1)){
-                       pagesHtml += `<li class="page-item ${i === currentPage ? 'active' : ''}"><a class="page-link" href="#" data-page="${i}">${i}</a></li>`;
+                for (let i = 1; i <= totalPages; i++) {
+                    if (i === currentPage || (i <= 2) || (i >= totalPages - 1) || (i >= currentPage - 1 && i <= currentPage + 1)) {
+                        pagesHtml += `<li class="page-item ${i === currentPage ? 'active' : ''}"><a class="page-link" href="#" data-page="${i}">${i}</a></li>`;
                     } else if (pagesHtml.slice(-25) !== '<span>...</span></li>') {
-                       pagesHtml += `<li class="page-item disabled"><span class="page-link">...</span></li>`;
+                        pagesHtml += `<li class="page-item disabled"><span class="page-link">...</span></li>`;
                     }
                 }
                 paginationContainer.innerHTML += pagesHtml;
@@ -265,47 +297,31 @@
             }
 
             function setLoadingState() {
-                 userDataBody.innerHTML = '<tr><td colspan="8" class="text-center">Loading...</td></tr>';
+                userDataBody.innerHTML = '<tr><td colspan="8" class="text-center">Loading...</td></tr>';
             }
-            function handleAuthFailure(){
-                 userDataBody.innerHTML = `<tr><td colspan="8" class="text-center text-danger">Authorization failed. Please log in again.</td></tr>`;
+
+            function handleAuthFailure() {
+                userDataBody.innerHTML = `<tr><td colspan="8" class="text-center text-danger">Authorization failed. Please log in again.</td></tr>`;
             }
-            function handleFetchError(error){
+
+            function handleFetchError(error) {
                 console.error('Fetch error:', error);
                 userDataBody.innerHTML = `<tr><td colspan="8" class="text-center text-danger">Failed to load data: ${error.message}</td></tr>`;
             }
 
-            // --- EVENT HANDLERS ---
-            searchButton.addEventListener('click', () => {
-                const searchTerm = searchInput.value.trim();
-                if (searchTerm) {
-                    // If there's a search term, call the search API
-                    fetchSearchResults(1, searchTerm);
-                } else {
-                    // If the search is cleared, call the get all API
-                    fetchAllUsers();
-                }
-            });
-
-            searchInput.addEventListener('keyup', (event) => {
-                if (event.key === 'Enter') {
-                    searchButton.click();
-                }
-            });
-
+            // Pagination click
             paginationContainer.addEventListener('click', (event) => {
                 event.preventDefault();
                 const pageLink = event.target.closest('a.page-link');
                 if (pageLink && pageLink.dataset.page) {
                     const page = parseInt(pageLink.dataset.page, 10);
-                    // Pagination only works for search results, so always call fetchSearchResults
                     if (page > 0) {
                         fetchSearchResults(page, searchInput.value.trim());
                     }
                 }
             });
 
-            // Initial load on page start - call the "get all" API
+            // Initial load
             fetchAllUsers();
         });
     </script>
