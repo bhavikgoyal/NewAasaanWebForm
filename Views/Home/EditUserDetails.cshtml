@@ -1,141 +1,200 @@
 ﻿@{
-  ViewData["Title"] = "Edit User";
+    ViewData["Title"] = "Edit User";
 }
 
 <div class="container-fluid ps-md-5 pe-md-5 mt-4">
-  <div class="data-card">
-    <div class="card-header">
-      <h3 class="card-title mb-0">Edit User Details - <span id="headerMobileNumber"></span></h3>
-    </div>
-
-    <div class="card-body">
-      <form id="editUserForm">
-        <div class="row g-3">
-          <!-- Row 1: Read-only Information -->
-          <div class="col-md-4">
-            <label for="userID" class="form-label">User ID</label>
-            <input type="text" id="userID" class="form-control" readonly>
-          </div>
-          <div class="col-md-4">
-            <label for="mobileNumber" class="form-label">Mobile Number</label>
-            <input type="text" id="mobileNumber" class="form-control" readonly>
-          </div>
-          <div class="col-md-4">
-            <label for="createdDate" class="form-label">Created Date</label>
-            <input type="text" id="createdDate" class="form-control" readonly>
-          </div>
-
-          <!-- Row 2: Editable Information -->
-          <div class="col-md-6">
-            <label for="emailID" class="form-label">Email ID</label>
-            <input type="email" id="emailID" class="form-control">
-          </div>
-          <div class="col-md-6">
-            <label for="subscriptionExpiryDate" class="form-label">Subscription Expiry Date</label>
-            <input type="date" id="subscriptionExpiryDate" class="form-control">
-          </div>
-
-          <!-- Row 3: Read-only Device Information -->
-          <div class="col-md-4">
-            <label for="deviceID" class="form-label">Device ID</label>
-            <input type="text" id="deviceID" class="form-control" readonly>
-          </div>
-          <div class="col-md-2">
-            <label for="platform" class="form-label">Platform</label>
-            <input type="text" id="platform" class="form-control" readonly>
-          </div>
-          <div class="col-md-2">
-            <label for="appVersion" class="form-label">App Version</label>
-            <input type="text" id="appVersion" class="form-control" readonly>
-          </div>
-          <div class="col-md-4">
-            <label for="lastApiCallDate" class="form-label">Last API Call Date</label>
-            <input type="text" id="lastApiCallDate" class="form-control" readonly>
-          </div>
-
-          <!-- Row 4: Editable Admin Fields -->
-          <div class="col-md-4">
-            <label for="appCode" class="form-label">App Code</label>
-            <input type="text" id="appCode" class="form-control">
-          </div>
-          <div class="col-md-8">
-            <label for="status" class="form-label">Status (e.g., Active, Inactive)</label>
-            <input type="text" id="status" class="form-control">
-          </div>
-
-          <!-- Row 5: Admin Notes -->
-          <div class="col-12">
-            <label for="adminNotes" class="form-label">Admin Notes</label>
-            <textarea id="adminNotes" class="form-control" rows="4"></textarea>
-          </div>
-
+    <div class="data-card">
+        <div class="card-header">
+            <h3 class="card-title mb-0">Edit User Details - <span id="headerMobileNumber"></span></h3>
         </div>
+        <div class="card-body">
+            <form id="editUserForm">
+                <div class="row g-3">
+                    <!-- Row 1: Read-only Information -->
+                    <div class="col-md-4">
+                        <label for="userID" class="form-label">User ID</label>
+                        <input type="text" id="userID" class="form-control" readonly>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="mobileNumber" class="form-label">Mobile Number</label>
+                        <input type="text" id="mobileNumber" class="form-control" readonly>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="createdDate" class="form-label">Created Date</label>
+                        <input type="text" id="createdDate" class="form-control" readonly>
+                    </div>
 
-        <div class="mt-4">
-          <button type="submit" class="btn btn-primary">Save Changes</button>
-          <a href="@Url.Action("Index", "Home")" class="btn btn-secondary">Back to List</a>
+                    <!-- Row 2: Editable Information -->
+                    <div class="col-md-6">
+                        <label for="emailID" class="form-label">Email ID</label>
+                        <input type="email" id="emailID" class="form-control">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="subscriptionExpiryDate" class="form-label">Subscription Expiry Date</label>
+                        <input type="date" id="subscriptionExpiryDate" class="form-control">
+                    </div>
+
+                    <!-- Row 3: Device Information -->
+                    <div class="col-md-4">
+                        <label for="deviceID" class="form-label">Device ID</label>
+                        <input type="text" id="deviceID" class="form-control" readonly>
+                    </div>
+                    <div class="col-md-2">
+                        <label for="platform" class="form-label">Platform</label>
+                        <input type="text" id="platform" class="form-control">
+                    </div>
+                    <div class="col-md-2">
+                        <label for="appVersion" class="form-label">App Version</label>
+                        <input type="text" id="appVersion" class="form-control">
+                    </div>
+                    <div class="col-md-4">
+                        <label for="lastApiCallDate" class="form-label">Last API Call Date</label>
+                        <input type="text" id="lastApiCallDate" class="form-control" readonly>
+                    </div>
+
+                    <!-- Row 4: Admin Fields -->
+                    <div class="col-md-6">
+                        <label for="appCode" class="form-label">App Code</label>
+                        <input type="text" id="appCode" class="form-control">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="status" class="form-label">Status (Calculated)</label>
+                        <input type="text" id="status" class="form-control" readonly>
+                    </div>
+
+                    <!-- Row 5: Admin Notes -->
+                    <div class="col-12">
+                        <label for="adminNotes" class="form-label">Admin Notes</label>
+                        <textarea id="adminNotes" class="form-control" rows="4"></textarea>
+                    </div>
+                </div>
+
+                <div class="mt-4">
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                    <a href="@Url.Action("Index", "Home")" class="btn btn-secondary">Back to List</a>
+                </div>
+            </form>
         </div>
-      </form>
     </div>
-  </div>
 </div>
 
 @section Scripts {
-  <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const userDataString = sessionStorage.getItem('userToEdit');
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            
+            const token = '@User.FindFirst("ApiToken")?.Value';
+            const baseApiUrl = 'https://localhost:7127';
+            const userDataString = sessionStorage.getItem('userToEdit');
+            let originalUserData = null; 
 
-        if (userDataString) {
-            const user = JSON.parse(userDataString);
+            if (userDataString) {
+                originalUserData = JSON.parse(userDataString);
+                // Log the object to the console to see its exact structure
+                console.log("Data loaded for editing:", originalUserData);
+            } else {
+                alert('No user data found. Redirecting to dashboard.');
+                window.location.href = '@Url.Action("Index", "Home")';
+                return;
+            }
 
             const formatDateForInput = (dateString) => {
                 if (!dateString) return '';
-                const date = new Date(dateString);
-                return date.toISOString().split('T')[0];
+                try { return new Date(dateString).toISOString().slice(0, 10); } catch { return ''; }
             };
 
             const formatDateForDisplay = (dateString) => {
                 if (!dateString) return '-';
-                return new Date(dateString).toLocaleDateString('en-GB'); 
+                try { return new Date(dateString).toLocaleDateString('en-GB'); } catch { return 'Invalid Date'; }
             };
 
-            document.getElementById('userID').value = user.userID || '';
-            document.getElementById('mobileNumber').value = user.mobileNumber || '';
-            document.getElementById('headerMobileNumber').textContent = user.mobileNumber || 'N/A';
-            document.getElementById('emailID').value = user.emailID || '';
-            document.getElementById('deviceID').value = user.deviceID || '';
-            document.getElementById('platform').value = user.platform || '';
-            document.getElementById('appVersion').value = user.appVersion || '';
-            document.getElementById('adminNotes').value = user.adminNotes || '';
-            document.getElementById('appCode').value = user.appCode || '';
-            document.getElementById('status').value = user.subscriptionStatus || ''; 
+            // --- POPULATE ALL FORM FIELDS ---
+            document.getElementById('headerMobileNumber').textContent = originalUserData.mobileNumber || 'N/A';
+            document.getElementById('userID').value = originalUserData.userID || '';
+            document.getElementById('mobileNumber').value = originalUserData.mobileNumber || '';
+            document.getElementById('createdDate').value = formatDateForDisplay(originalUserData.dateOfCreation);
+            document.getElementById('emailID').value = originalUserData.emailID || '';
+            document.getElementById('subscriptionExpiryDate').value = formatDateForInput(originalUserData.subscriptionExpiryDate);
+            document.getElementById('deviceID').value = originalUserData.deviceID || '';
+            document.getElementById('platform').value = originalUserData.platform || '';
+            document.getElementById('appVersion').value = originalUserData.appVersion || '';
+            document.getElementById('lastApiCallDate').value = formatDateForDisplay(originalUserData.lastAPICallDate);
+            document.getElementById('appCode').value = originalUserData.appCode || '';
+            
+            // *** THE FIX: Use lowercase `status` to access the property from the JSON object ***
+            document.getElementById('status').value = originalUserData.status || ''; // <-- This is the corrected line
+            
+            document.getElementById('adminNotes').value = originalUserData.adminNotes || '';
 
-            document.getElementById('createdDate').value = formatDateForDisplay(user.dateofCreation);
-            document.getElementById('lastApiCallDate').value = formatDateForDisplay(user.lastAPICallDate);
-            document.getElementById('subscriptionExpiryDate').value = formatDateForInput(user.subscriptionExpiryDate);
+            // --- FORM SUBMISSION LOGIC ---
+            document.getElementById('editUserForm').addEventListener('submit', async function(event) {
+                event.preventDefault();
 
-            sessionStorage.removeItem('userToEdit');
+                const saveButton = event.target.querySelector('button[type="submit"]');
+                saveButton.disabled = true;
+                saveButton.textContent = 'Saving...';
 
-        } else {
-            alert('No user data found to edit. Redirecting to the dashboard.');
-            window.location.href = '@Url.Action("Index", "Home")';
-        }
+                const originalExpiryDate = formatDateForInput(originalUserData.subscriptionExpiryDate);
+                const newExpiryDate = document.getElementById('subscriptionExpiryDate').value;
 
-        document.getElementById('editUserForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-            const updatedData = {
-                userID: document.getElementById('userID').value,
-                emailID: document.getElementById('emailID').value,
-                subscriptionExpiryDate: document.getElementById('subscriptionExpiryDate').value,
-                adminNotes: document.getElementById('adminNotes').value,
-                appCode: document.getElementById('appCode').value,
-                subscriptionStatus: document.getElementById('status').value
-            };
+                if (newExpiryDate !== originalExpiryDate) {
+                    if (!newExpiryDate) {
+                        alert('Subscription Expiry Date cannot be empty if you change it.');
+                        saveButton.disabled = false;
+                        saveButton.textContent = 'Save Changes';
+                        return; 
+                    }
+                    const today = new Date();
+                    today.setHours(0, 0, 0, 0); 
+                    const selectedDate = new Date(newExpiryDate); 
+                    if (selectedDate <= today) {
+                        alert('The new Subscription Expiry Date must be a future date.');
+                        saveButton.disabled = false;
+                        saveButton.textContent = 'Save Changes';
+                        return; 
+                    }
+                }
+                
+                const updatedData = {
+                    userID: parseInt(document.getElementById('userID').value, 10),
+                    emailID: document.getElementById('emailID').value,
+                    subscriptionExpiryDate: newExpiryDate,
+                    adminNotes: document.getElementById('adminNotes').value,
+                    appCode: document.getElementById('appCode').value,
+                    mobileNumber: originalUserData.mobileNumber,
+                    deviceID: originalUserData.deviceID,
+                    platform: document.getElementById('platform').value,
+                    appVersion: document.getElementById('appVersion').value,
+                    dateOfCreation: originalUserData.dateofCreation,
+                    lastAPICallDate: originalUserData.lastAPICallDate,
+                    
+                    // Use the lowercase properties to build the outgoing JSON
+                    status: originalUserData.status,
+                    subscriptionStatus: (originalUserData.subscriptionStatus === true || originalUserData.subscriptionStatus === 'true')
+                };
 
-            console.log('Data to be saved:', updatedData);
-            alert('Check the console for the data to be saved. Save functionality needs an API endpoint.');
+                // --- API Call ---
+                try {
+                    const response = await fetch(`${baseApiUrl}/api/Admin/UpdateUser/${updatedData.userID}`, {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                        body: JSON.stringify(updatedData)
+                    });
 
+                    if (!response.ok) {
+                        const errorText = await response.text();
+                        throw new Error(`API Error (${response.status}): ${errorText}`);
+                    }
+
+                    alert('User details updated successfully!');
+                    window.location.href = '@Url.Action("Index", "Home")';
+
+                } catch (error) {
+                    console.error('Failed to update user:', error);
+                    alert('An error occurred while saving:\n' + error.message);
+                    saveButton.disabled = false;
+                    saveButton.textContent = 'Save Changes';
+                }
+            });
         });
-    });
-  </script>
+    </script>
 }
