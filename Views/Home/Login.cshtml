@@ -1,93 +1,216 @@
 ﻿@model Aasaan_Admin_Form.Models.LoginModel
 @{
-    ViewData["Title"] = "Log In";
+  ViewData["Title"] = "Log In";
 }
 
-<h2>@ViewData["Title"]</h2>
-<hr />
-<div class="row">
-    <div class="col-md-4">
+<style>
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
 
-        <form id="login-form">
+  body {
+    background: linear-gradient(to right, #74ebd5, #ACB6E5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
 
+  .login-container {
+    background: #fff;
+    padding: 2.5rem 1rem;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 420px;
+    animation: fadeIn 0.6s ease-in-out;
+  }
 
-            <div id="api-error-message" class="text-danger mb-3" role="alert"></div>
+  @@keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
 
-            <div class="form-group mb-3">
-                <label asp-for="Username" class="control-label"></label>
-                <input asp-for="Username" class="form-control" autocomplete="username" />
-                <span asp-validation-for="Username" class="text-danger"></span>
-            </div>
-            <div class="form-group mb-3">
-                <label asp-for="Password" class="control-label"></label>
-                <input asp-for="Password" class="form-control" autocomplete="current-password" />
-                <span asp-validation-for="Password" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <button id="login-button" type="submit" class="btn btn-primary">Log In</button>
-            </div>
-        </form>
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+  }
+
+  .login-container h2 {
+    margin-bottom: 1rem;
+    font-size: 2rem;
+    color: #333;
+    text-align: center;
+  }
+
+  .form-group {
+    margin-bottom: 1.3rem;
+  }
+
+  label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #333;
+    font-weight: 600;
+  }
+
+  input[type="text"],
+  input[type="password"] {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  input:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.25);
+    outline: none;
+  }
+
+  .text-danger {
+    color: #d9534f;
+    font-size: 0.9rem;
+    margin-top: 0.4rem;
+  }
+
+  button {
+    width: 100%;
+    padding: 0.8rem;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    position: relative;
+  }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+  .spinner {
+    border: 2px solid #f3f3f3;
+    border-top: 2px solid white;
+    border-radius: 50%;
+    width: 16px;
+    height: 16px;
+    animation: spin 1s linear infinite;
+    position: absolute;
+    top: 50%;
+    left: 15px;
+    transform: translateY(-50%);
+    display: none;
+  }
+
+  @@keyframes spin {
+    0% {
+      transform: translateY(-50%) rotate(0deg);
+    }
+
+    100% {
+      transform: translateY(-50%) rotate(360deg);
+    }
+  }
+
+  @@media (max-width: 575px){
+    .login-container{
+       border-radius: 0;
+    }
+
+    button{
+      margin-bottom: 2%;
+    }
+
+  }
+
+</style>
+
+<div class="login-container">
+  <h2>@ViewData["Title"]</h2>
+  <form id="login-form" novalidate>
+    <div id="api-error-message" class="text-danger mb-3" role="alert"></div>
+
+    <div class="form-group">
+      <label asp-for="Username" class="control-label"></label>
+      <input asp-for="Username" class="form-control" id="Username" autocomplete="username" />
+      <span asp-validation-for="Username" class="text-danger"></span>
     </div>
+
+    <div class="form-group">
+      <label asp-for="Password" class="control-label"></label>
+      <input asp-for="Password" class="form-control" id="Password" autocomplete="current-password" />
+      <span asp-validation-for="Password" class="text-danger"></span>
+    </div>
+
+    <button id="login-button" type="submit">
+      <span class="spinner" id="spinner"></span>
+      <span id="login-text">Log In</span>
+    </button>
+  </form>
 </div>
 
 @section Scripts {
-    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+  @await Html.PartialAsync("_ValidationScriptsPartial")
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const loginForm = document.getElementById('login-form');
-            loginForm.addEventListener('submit', async function (event) {
-                event.preventDefault();
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const loginForm = document.getElementById('login-form');
+        const loginButton = document.getElementById('login-button');
+        const spinner = document.getElementById('spinner');
+        const loginText = document.getElementById('login-text');
+        const errorMessageDiv = document.getElementById('api-error-message');
 
-                const loginButton = document.getElementById('login-button');
-                const errorMessageDiv = document.getElementById('api-error-message');
-                errorMessageDiv.textContent = '';
-                loginButton.disabled = true;
-                loginButton.textContent = 'Logging In...';
+        loginForm.addEventListener('submit', async function (event) {
+            event.preventDefault();
+            errorMessageDiv.textContent = '';
+            loginButton.disabled = true;
+            spinner.style.display = 'inline-block';
+            loginText.textContent = ' Logging In...';
 
-                
-                const email = document.getElementById('Username').value; 
-                const password = document.getElementById('Password').value;
+            const email = document.getElementById('Username').value;
+            const password = document.getElementById('Password').value;
 
-                
-                const apiUrl = new URL('https://localhost:7127/api/Account/LogIn');
-                apiUrl.searchParams.append('Email', email);
-                apiUrl.searchParams.append('Password', password);
-                debugger;
-                try {
-                   
-                    const response = await fetch(apiUrl, {
-                        method: 'POST'
-                    });
+            const apiUrl = new URL('https://localhost:7127/api/Account/LogIn');
+            apiUrl.searchParams.append('Email', email);
+            apiUrl.searchParams.append('Password', password);
 
-                    if (response.ok) {
-                        const data = await response.json();
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST'
+                });
 
-                        
-                        if (data && data.data && data.data.token) {
-                            const token = data.data.token;
-                            const userEmail = data.data.email; 
-
-                            debugger;
-                            
-                            window.location.href = `/Home/ExternalLoginCallback?token=${encodeURIComponent(token)}&username=${encodeURIComponent(userEmail)}`;
-                        } else {
-                           
-                            errorMessageDiv.textContent = 'Login successful, but token was not provided.';
-                        }
-
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data?.data?.token) {
+                        const token = data.data.token;
+                        const userEmail = data.data.email;
+                        window.location.href = `/Home/ExternalLoginCallback?token=${encodeURIComponent(token)}&username=${encodeURIComponent(userEmail)}`;
                     } else {
-                        
-                        errorMessageDiv.textContent = 'Invalid email or password.';
+                        errorMessageDiv.textContent = 'Login successful, but token was not provided.';
                     }
-                } catch (error) {
-                    console.error('Login request failed:', error);
-                    errorMessageDiv.textContent = 'Cannot connect to the login service. Ensure the API is running.';
-                } finally {
-                    loginButton.disabled = false;
-                    loginButton.textContent = 'Log In';
+                } else {
+                    errorMessageDiv.textContent = 'Invalid email or password.';
                 }
-            });
+            } catch (error) {
+                console.error('Login request failed:', error);
+                errorMessageDiv.textContent = 'Cannot connect to the login service. Please check the API.';
+            } finally {
+                loginButton.disabled = false;
+                spinner.style.display = 'none';
+                loginText.textContent = 'Log In';
+            }
         });
-    </script>
+    });
+  </script>
 }

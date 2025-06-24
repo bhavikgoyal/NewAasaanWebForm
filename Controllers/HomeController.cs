@@ -28,8 +28,23 @@ namespace Aasaan_Admin_Form.Controllers
       return View();
     }
 
+
+
     [HttpGet]
     public IActionResult EditUserDetails()
+    {
+      return View();
+    }
+
+
+    [HttpGet]
+    public IActionResult Homepage()
+    {
+      return View();
+    }
+
+    [HttpGet]
+    public IActionResult Userprofile()
     {
       return View();
     }
