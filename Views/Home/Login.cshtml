@@ -170,27 +170,29 @@
         const spinner = document.getElementById('spinner');
         const loginText = document.getElementById('login-text');
         const errorMessageDiv = document.getElementById('api-error-message');
-
+        const baseApiUrl = '@ViewBag.ApiUrl';
+        debugger
         loginForm.addEventListener('submit', async function (event) {
             event.preventDefault();
             errorMessageDiv.textContent = '';
             loginButton.disabled = true;
             spinner.style.display = 'inline-block';
             loginText.textContent = ' Logging In...';
-
+            debugger
             const email = document.getElementById('Username').value;
             const password = document.getElementById('Password').value;
 
-            const apiUrl = new URL('https://localhost:7127/api/Account/LogIn');
+            const apiUrl = new URL(`${baseApiUrl}/api/Account/LogIn`);
             apiUrl.searchParams.append('Email', email);
             apiUrl.searchParams.append('Password', password);
-
+            debugger
             try {
                 const response = await fetch(apiUrl, {
                     method: 'POST'
                 });
 
                 if (response.ok) {
+                  debugger
                     const data = await response.json();
                     if (data?.data?.token) {
                         const token = data.data.token;

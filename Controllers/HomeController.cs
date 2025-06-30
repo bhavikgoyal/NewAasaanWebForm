@@ -14,16 +14,27 @@ namespace Aasaan_Admin_Form.Controllers
   public class HomeController : Controller
   {
     private readonly ILogger<HomeController> _logger;
-
-    public HomeController(ILogger<HomeController> logger)
+    private readonly IConfiguration _configuration;
+    public HomeController(ILogger<HomeController> logger, IConfiguration configuration)
     {
       _logger = logger;
+      _configuration = configuration;
+    }
+
+    [HttpGet]
+    public IActionResult Homepage()
+    {
+      string apiurl = _configuration["ApiSetting:BaseUser"];
+      ViewBag.ApiUrl = apiurl;
+      return View();
     }
 
 
     [Authorize]
     public IActionResult Index()
     {
+      string apiurl = _configuration["ApiSetting:BaseUser"];
+      ViewBag.ApiUrl = apiurl;
       ViewBag.Username = User.Identity?.Name;
       return View();
     }
@@ -33,26 +44,27 @@ namespace Aasaan_Admin_Form.Controllers
     [HttpGet]
     public IActionResult EditUserDetails()
     {
+      string apiurl = _configuration["ApiSetting:BaseUser"];
+      ViewBag.ApiUrl = apiurl;
       return View();
     }
 
 
-    [HttpGet]
-    public IActionResult Homepage()
-    {
-      return View();
-    }
+
 
     [HttpGet]
     public IActionResult Userprofile()
     {
+      string apiurl = _configuration["ApiSetting:BaseUser"];
+      ViewBag.ApiUrl = apiurl;
       return View();
     }
 
     [HttpGet]
     public IActionResult Login()
     {
-
+      string apiurl = _configuration["ApiSetting:BaseUser"];
+      ViewBag.ApiUrl = apiurl;
       if (User.Identity != null && User.Identity.IsAuthenticated)
       {
         return RedirectToAction("Index", "Home");
