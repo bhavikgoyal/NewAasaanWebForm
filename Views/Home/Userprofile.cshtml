@@ -4,347 +4,401 @@
 @{
 }
 @section Styles {
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-	<link rel="stylesheet" href="~/css/site.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="~/css/site.css">
 }
 
 <div class="page-wrapper">
-	<!-- Desktop Sidebar -->
-	<aside id="sidebar" class="sidebar d-none d-lg-block">
-		<div class="sidebar-header">
-			<span class="brand-name">
-				<img src="~/images/logo.png" alt="Logo">
-			</span>
-		</div>
-		<ul class="sidebar-nav">
-			<li class="nav-item">
-				<a href="/Home/Homepage" class="nav-link">
-					<i class="fa-solid fa-house"></i>
-					<span>Home</span>
-				</a>
-			</li>
-			<li class="nav-item">
-				<a href="/Home/Userprofile" class="nav-link">
-					<i class="fa-solid fa-user"></i>
-					<span>User Profile</span>
-				</a>
-			</li>
-		</ul>
-	</aside>
+  <!-- Desktop Sidebar -->
+  <aside id="sidebar" class="sidebar d-none d-lg-block">
+    <div class="sidebar-header">
+      <span class="brand-name">
+        <img src="~/image/logo 3.png" />
+      </span>
+    </div>
+    <ul class="sidebar-nav">
+      <li class="nav-item">
+        <a href="/Home/Homepage" class="nav-link">
+          <i class="fa-solid fa-house"></i>
+          <span>Home</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="/Home/Userprofile" class="nav-link active">
+          <i class="fa-solid fa-user"></i>
+          <span>User Profile</span>
+        </a>
+      </li>
+    </ul>
+  </aside>
 
-	<!-- Main Content -->
-	<div class="main-content">
-		<header class="header">
-			<!-- Mobile toggle button -->
-			<div style="position: absolute; left: 10px;">
-				<button class="main_button">
-					<i class="fa-solid fa-bars"></i>
-				</button>
-				<button class="btn" type="button"
-								data-bs-toggle="offcanvas"
-								data-bs-target="#mobile-sidebar"
-								aria-controls="mobile-sidebar">
-					<i class="fa-solid fa-bars"></i>
-				</button>
-			</div>
+  <!-- Main Content -->
+  <div class="main-content">
+    <header>
+      <div>
+        <div>
+          <button class="main_button">
+            <i class="fa-solid fa-bars"></i>
+          </button>
+          <button class="btn" type="button"
+                  data-bs-toggle="offcanvas"
+                  data-bs-target="#mobile-sidebar"
+                  aria-controls="mobile-sidebar">
+            <i class="fa-solid fa-bars"></i>
+          </button>
+        </div>
+      </div>
 
-			<div style="position: relative;">
-				<div class="header-actions">
-					<p class="mb-0 me-3 d-none d-sm-block">Welcome, <strong>@User.Identity.Name</strong></p>
-					<div class="dropdown">
-						<form asp-action="Logout" asp-controller="Home" method="get">
-							<button type="submit" class="btn btn-link text-decoration-none d-flex align-items-center gap-2" style="color: inherit;">
-								<i class="fa-solid fa-arrow-right-from-bracket"></i>
-								<span class="d-sm-inline">Logout</span>
-							</button>
-						</form>
-					</div>
-				</div>
-			</div>
-		</header>
+      <div id="headerContainer" style="position: relative; left: -15%;">
+        <div class="header-actions">
+          <p class="mb-0 me-3 d-none d-sm-block">Welcome, <strong>@User.Identity.Name</strong></p>
+          <div class="dropdown">
+            <form asp-action="Logout" asp-controller="Home" method="get">
+              <button type="submit" class="btn btn-link text-decoration-none d-flex align-items-center gap-2" style="color: inherit;">
+                <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                <span class="d-sm-inline">Logout</span>
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </header>
 
-		<div class="container-fluid ps-md-5 pe-md-5">
-			<div class="data-card">
-				<div class="card-header">
-					<h3 class="card-title mb-0">Manage Admin Users</h3>
-				</div>
+    <div class="container-fluid ps-md-5 pe-md-5">
+      <div class="data-card">
+        <div class="card-header">
+          <h3 class="card-title mb-0">Manage Admin Users</h3>
+        </div>
 
-				<div class="card-filters">
-					<div class="row g-3 align-items-center">
-						<div class="col-md-6">
-							<input type="text" class="form-control" id="searchInput" placeholder="Search by Mobile Number...">
-						</div>
-					</div>
-				</div>
+        <div class="card-filters">
+          <div class="row g-3 align-items-center">
+            <div class="col-md-6">
+              <input type="text" class="form-control" id="searchInput" placeholder="Search by Mobile Number...">
+            </div>
+          </div>
+        </div>
 
-				<div class="table-responsive">
-					<table class="table table-hover align-middle">
-						<thead>
-							<tr>
-								<th>UserID</th>
-								<th>Mobile Number</th>
-								<th>Email ID</th>
-								<th>Created Date</th>
-								<th>Device ID</th>
-								<th>Subscription Expiry Date</th>
-								<th>Platform</th>
-								<th>App Version</th>
-								<th>Last Api Call Date</th>
-								<th>Admin Notes</th>
-								<th>App Code</th>
-								<th>Status</th>
-								<th>Action</th>
-							</tr>
-						</thead>
-						<tbody id="userDataBody"></tbody>
-					</table>
-				</div>
+        <div class="table-responsive">
+          <table class="table table-striped table-hover align-middle">
+            <thead>
+              <tr style="background-color: red;">
+                <th>UserID</th>
+                <th>Mobile Number</th>
+                <th>Email ID</th>
+                <th>Created Date</th>
+                <th>Device ID</th>
+                <th>Subscription Expiry Date</th>
+                <th>Platform</th>
+                <th>App Version</th>
+                <th>Last Api Call Date</th>
+                <th>Admin Notes</th>
+                <th>App Code</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="userDataBody"></tbody>
+          </table>
+        </div>
 
-				<div class="card-footer d-flex flex-wrap justify-content-between align-items-center">
-					<small class="text-muted" id="showingInfoText">Showing 0 of 0 results found</small>
-					<nav aria-label="Page navigation">
-						<ul class="pagination custom-pagination pagination-sm mb-0"></ul>
-					</nav>
-				</div>
-			</div>
-		</div>
-	</div>
+        <div class="card-footer d-flex flex-wrap justify-content-between align-items-center">
+          <small class="text-muted" id="showingInfoText">Showing 0 of 0 results found</small>
+          @* <nav aria-label="Page navigation"> *@
+          @*   <ul class="pagination custom-pagination pagination-sm mb-0" id="paginationContainer"></ul> *@
+          @* </nav> *@
+          <nav aria-label="Page navigation example">
+            <ul class="pagination" id="paginationContainer">
+              <li class="page-item active">
+                <a class="page-link active" href="#" data-page="1">1</a>
+              </li>
+              <li class="page-item">
+                <a class="page-link" href="#" data-page="2">2</a>
+              </li>
+              <li class="page-item">
+                <a class="page-link" href="#" data-page="3">3</a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </div>
-
-<!-- ✅ Mobile Sidebar (Offcanvas) -->
 <div class="offcanvas offcanvas-start" tabindex="-1" id="mobile-sidebar" aria-labelledby="mobile-sidebar-label">
-	<div class="offcanvas-header">
-		<h5 class="offcanvas-title" id="mobile-sidebar-label">Menu</h5>
-		<button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-	</div>
-	<div class="offcanvas-body">
-		<ul class="sidebar-nav">
-			<li class="nav-item">
-				<a href="/Home/Homepage" class="nav-link">
-					<i class="fa-solid fa-house"></i>
-					<span>Home</span>
-				</a>
-			</li>
-			<li class="nav-item">
-				<a href="/Home/Userprofile" class="nav-link">
-					<i class="fa-solid fa-user"></i>
-					<span>User Profile</span>
-				</a>
-			</li>
-		</ul>
-	</div>
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="mobile-sidebar-label">Menu</h5>
+    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <ul class="sidebar-nav">
+      <li class="nav-item">
+        <a href="/Home/Homepage" class="nav-link">
+          <i class="fa-solid fa-house"></i>
+          <span>Home</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="/Home/Userprofile" class="nav-link">
+          <i class="fa-solid fa-user"></i>
+          <span>User Profile</span>
+        </a>
+      </li>
+    </ul>
+  </div>
 </div>
 
 @section Scripts {
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-	<script src="~/js/dashboardScript.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="~/js/dashboardScript.js"></script>
+  <script>
+    document.querySelectorAll('.main_button').forEach(button => {
+        button.addEventListener('click', () => {
+            const sidebar = document.getElementById('sidebar');
+            const mainContent = document.querySelector('.main-content');
+            sidebar.classList.toggle('hidden');
+            mainContent.classList.toggle('full-width');
+        });
+    });
 
-	<script>
-		document.addEventListener('DOMContentLoaded', function () {
-				const userDataBody = document.getElementById('userDataBody');
-				const searchInput = document.getElementById('searchInput');
+       document.querySelectorAll('.main_button').forEach(button => {
+      button.addEventListener('click', () => {
+        const header = document.getElementById('headerContainer');
+        const currentLeft = window.getComputedStyle(header).left;
 
-				const paginationContainer = document.querySelector('.pagination');
-				const showingInfoText = document.getElementById('showingInfoText');
-						let currentUsersData = [];
-										 let ignoreNextBlur = false;
-				const token = '@User.FindFirst("ApiToken")?.Value';
-				const baseApiUrl = 'https://localhost:7127';
-
-
-				document.addEventListener('mousedown', function (e) {
-								const isClickOnButton = e.target.closest('button') || e.target.closest('a.btn');
-								ignoreNextBlur = !!isClickOnButton;
-						});
-
-						 searchInput.addEventListener('blur', function () {
-								if (ignoreNextBlur) {
-										ignoreNextBlur = false;
-										return;
-								}
-								const mobileNumber = this.value.trim();
-								if (mobileNumber.length > 0) {
-										fetchSearchResults(1, mobileNumber);
-								}
-						});
-						// Optional: allow Enter key to also trigger search
-				searchInput.addEventListener('blur', function () {
-						if (ignoreNextBlur) {
-								ignoreNextBlur = false;
-								return;
-						}
-
-						const mobileNumber = this.value.trim();
-						if (mobileNumber.length > 0) {
-								fetchSearchResults(1, mobileNumber);
-						} else {
-								fetchAllUsers(); // if input is empty, reload all users
-						}
-				});
-
-				// --- FUNCTION 1: To get ALL users (no pagination) ---
-				async function fetchAllUsers() {
-						if (!token) {
-								handleAuthFailure();
-								return;
-						}
-						setLoadingState();
-
-						// Clear search input and hide pagination
-						searchInput.value = '';
-						paginationContainer.innerHTML = '';
-
-						try {
-								const response = await fetch(`${baseApiUrl}/api/Admin/GetAllUsersDetails`, {
-										method: 'GET',
-										headers: { 'Authorization': `Bearer ${token}` }
-								});
-
-								if (!response.ok) throw new Error(`API Error: ${response.statusText}`);
-								debugger
-								// This API returns a simple array, not a paginated object
-								const users = await response.json();
-								renderTable(users);
-								showingInfoText.textContent = `Showing ${users.length} of ${users.length} results found`;
-
-						} catch (error) {
-								handleFetchError(error);
-						}
-				}
-
-				// --- FUNCTION 2: To get SEARCH results (with pagination) ---
-				async function fetchSearchResults(page = 1, mobileNumber) {
-						if (!token) {
-								handleAuthFailure();
-								return;
-						}
-						setLoadingState();
-
-						const apiUrl = new URL(`${baseApiUrl}/api/Admin/SearchUsers`);
-						apiUrl.searchParams.append('pageIndex', page);
-						apiUrl.searchParams.append('mobileNumber', mobileNumber);
-
-						try {
-								const response = await fetch(apiUrl, {
-										method: 'GET',
-										headers: { 'Authorization': `Bearer ${token}` }
-								});
-
-								if (!response.ok) throw new Error(`API Error: ${response.statusText}`);
-
-								const result = await response.json();
-								renderTable(result.items);
-								renderPagination(result.pageIndex, result.totalPages);
-								showingInfoText.textContent = `Showing ${result.items.length} of ${result.totalCount} results found`;
-						} catch (error) {
-								handleFetchError(error);
-						}
-				}
-
-				// --- HELPER FUNCTIONS (for cleaner code) ---
-				function renderTable(users) {
-						 currentUsersData = users;
-						userDataBody.innerHTML = '';
-						if (!users || users.length === 0) {
-								userDataBody.innerHTML = '<tr><td colspan="8" class="text-center">No users found.</td></tr>';
-								return;
-						}
-						debugger
-						users.forEach(user => {
-								const isPaid = user.subscriptionStatus;
-								const row = document.createElement('tr');
-								// This rendering logic is the same for both API calls
-								row.innerHTML = `
-										<td>${user.userID || '-'}</td>
-										<td>${user.mobileNumber || '-'}</td>
-										<td>${user.emailID || '-'}</td>
-										<td>${new Date(user.dateofCreation).toLocaleDateString()}</td>
-										<td>${user.deviceID || '-'}</td>
-										<td>${user.subscriptionExpiryDate ? new Date(user.subscriptionExpiryDate).toLocaleDateString() : '-'}</td>
-											<td>${user.platform || '-'}</td>
-												<td>${user.appVersion || '-'}</td>
-															<td>${user.lastAPICallDate ? new Date(user.lastAPICallDate).toLocaleDateString() : '-'}</td>
-																<td>${user.adminNotes || '-'}</td>
-																	<td>${user.appCode || '-'}</td>
-																	<td>${user.subscriptionStatus || '-'}</td>
-											 <td>
-								<button class="btn btn-outline-secondary btn-sm edit-btn" data-userid="${user.userID}">
-										<i class="fas fa-pencil-alt me-1"></i>Edit
-								</button>
-						</td>
-								`;
-								userDataBody.appendChild(row);
-						});
-				}
-		function renderPagination(currentPage, totalPages) {
-										paginationContainer.innerHTML = '';
-										if (totalPages <= 1) return;
-
-										paginationContainer.innerHTML += `<li class="page-item ${currentPage === 1 ? 'disabled' : ''}"><a class="page-link" href="#" data-page="${currentPage - 1}"><i class="fas fa-chevron-left"></i></a></li>`;
-										let pagesHtml = '';
-										for (let i = 1; i <= totalPages; i++) {
-												if (i === currentPage || (i <= 2) || (i >= totalPages - 1) || (i >= currentPage - 1 && i <= currentPage + 1)) {
-														pagesHtml += `<li class="page-item ${i === currentPage ? 'active' : ''}"><a class="page-link" href="#" data-page="${i}">${i}</a></li>`;
-												} else if (pagesHtml.slice(-25) !== '<span>...</span></li>') {
-														pagesHtml += `<li class="page-item disabled"><span class="page-link">...</span></li>`;
-												}
-										}
-										paginationContainer.innerHTML += pagesHtml;
-										paginationContainer.innerHTML += `<li class="page-item ${currentPage === totalPages ? 'disabled' : ''}"><a class="page-link" href="#" data-page="${currentPage + 1}"><i class="fas fa-chevron-right"></i></a></li>`;
-								}
-
-				function setLoadingState() {
-						 userDataBody.innerHTML = '<tr><td colspan="8" class="text-center">Loading...</td></tr>';
-				}
-				function handleAuthFailure(){
-						 userDataBody.innerHTML = `<tr><td colspan="8" class="text-center text-danger">Authorization failed. Please log in again.</td></tr>`;
-				}
-				function handleFetchError(error){
-						console.error('Fetch error:', error);
-						userDataBody.innerHTML = `<tr><td colspan="8" class="text-center text-danger">Failed to load data: ${error.message}</td></tr>`;
-				}
-
-				paginationContainer.addEventListener('click', (event) => {
-						event.preventDefault();
-						const pageLink = event.target.closest('a.page-link');
-						if (pageLink && pageLink.dataset.page) {
-								const page = parseInt(pageLink.dataset.page, 10);
-								if (page > 0) {
-										fetchSearchResults(page, searchInput.value.trim());
-								}
-						}
-				});
-
-			userDataBody.addEventListener('click', function(event) {
-
-				const editButton = event.target.closest('.edit-btn');
-					debugger;
-					if (!editButton) {
-							return;
-					}
-
-					const userIdToEdit = parseInt(editButton.dataset.userid, 10);
-
-					const userToEdit = currentUsersData.find(user => user.userID === userIdToEdit);
-
-					if (userToEdit) {
-							const userDataString = JSON.stringify(userToEdit);
-
-							sessionStorage.setItem('userToEdit', userDataString);
-
-							window.location.href = '/Home/EditUserDetails';
-					} else {
-							console.error('User not found in current data:', userIdToEdit);
-							alert('Could not find user data to edit.');
-					}
-			});
+        if (currentLeft === '0px') {
+          header.style.left = '-15%';
+        } else {
+          header.style.left = '0%';
+        }
+      });
+    });
 
 
-				// Initial load on page start - call the "get all" API
-				fetchAllUsers();
-		});
+    document.addEventListener('DOMContentLoaded', function () {
+        const userDataBody = document.getElementById('userDataBody');
+        const searchInput = document.getElementById('searchInput');
+        const paginationContainer = document.getElementById('paginationContainer');
+        const showingInfoText = document.getElementById('showingInfoText');
 
-	</script>
+        const token = '@User.FindFirst("ApiToken")?.Value';
+        const baseApiUrl = '@ViewBag.ApiUrl';
+
+        let currentPageIndex = 1;
+        const PageSize = 10;
+        let currentUsersData = [];
+
+        async function fetchAllUsers() {
+            if (!token) {
+                handleAuthFailure();
+                return;
+            }
+            setLoadingState();
+
+            try {
+                const response = await fetch(`${baseApiUrl}/api/Admin/GetAllUsersDetails?PageIndex=${currentPageIndex}&PageSize=${PageSize}`, {
+                    method: 'GET',
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+
+                if (!response.ok) throw new Error(`API Error: ${response.statusText}`);
+
+                const users = await response.json();
+                debugger
+                if (users && users.length > 0) {
+                    const totalRecords = users[0].totalRecords;
+                    const totalPages = Math.ceil(totalRecords / PageSize);
+
+                    renderTable(users);
+                    updateShowingInfo(totalRecords, users.length);
+                    renderPagination(currentPageIndex, totalPages);
+                } else {
+                    renderTable([]);
+                    showingInfoText.textContent = 'No results found.';
+                    //paginationContainer.innerHTML = '';
+                }
+
+            } catch (error) {
+                handleFetchError(error);
+            }
+        }
+
+        // --- FUNCTION 2: To get SEARCH results (with pagination) ---
+        async function fetchSearchResults(page, mobileNumber) {
+            if (!token) {
+                handleAuthFailure();
+                return;
+            }
+            setLoadingState();
+            currentPageIndex = page;
+            debugger
+            const apiUrl = new URL(`${baseApiUrl}/api/Admin/SearchUsers`);
+            apiUrl.searchParams.append('pageIndex', currentPageIndex);
+            apiUrl.searchParams.append('pageSize', PageSize);
+            apiUrl.searchParams.append('mobileNumber', mobileNumber);
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'GET',
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+
+                if (!response.ok) throw new Error(`API Error: ${response.statusText}`);
+
+                   const result = await response.json();
+                  renderTable(result.items);
+                  debugger
+                  const totalRecords = result.totalCount || 0;
+                  const totalPages = Math.ceil(totalRecords / PageSize);
+                  renderPagination(page, totalPages);
+                  updateShowingInfo(totalRecords, result.items.length);
+
+            } catch (error) {
+                handleFetchError(error);
+            }
+        }
+
+        // --- HELPER FUNCTIONS ---
+        function renderTable(users) {
+            currentUsersData = users;
+            userDataBody.innerHTML = '';
+            if (!users || users.length === 0) {
+                userDataBody.innerHTML = '<tr><td colspan="13" class="text-center">No users found.</td></tr>';
+                return;
+            }
+
+            users.forEach(user => {
+                const row = document.createElement('tr');
+                // This template now has 13 <td> cells to match the 13 <th> headers
+                row.innerHTML = `
+                    <td>${user.userID || '-'}</td>
+                    <td>${user.mobileNumber || '-'}</td>
+                    <td>${user.emailID || '-'}</td>
+                    <td>${user.dateofCreation ? new Date(user.dateofCreation).toLocaleDateString('en-GB') : '-'}</td>
+                    <td>${user.deviceID || '-'}</td>
+                    <td>${user.subscriptionExpiryDate ? new Date(user.subscriptionExpiryDate).toLocaleDateString('en-GB') : '-'}</td>
+                    <td>${user.platform || '-'}</td>
+                    <td>${user.appVersion || '-'}</td>
+                    <td>${user.lastAPICallDate ? new Date(user.lastAPICallDate).toLocaleDateString('en-GB') : '-'}</td>
+                    <td>${user.adminNotes || '-'}</td>
+                    <td>${user.appCode || '-'}</td>
+                    <td>${user.status || '-'}</td>
+                    <td>
+                        <button class="btn btn-outline-secondary btn-sm edit-btn" data-userid="${user.userID}">
+                            <i class="fas fa-pencil-alt me-1"></i>
+                        </button>
+                    </td>
+                `;
+                userDataBody.appendChild(row);
+            });
+        }
+
+            function renderPagination(currentPageIndex, totalPages) {
+        debugger;
+        paginationContainer.innerHTML = '';
+        if (totalPages <= 1) return;
+
+        // Page Numbers with ellipsis
+        let pagesHtml = '';
+        for (let i = 1; i <= totalPages; i++) {
+            if (
+                i === currentPageIndex ||
+                i <= 2 ||
+                i >= totalPages - 1 ||
+                (i >= currentPageIndex - 1 && i <= currentPageIndex + 1)
+            ) {
+                pagesHtml += `
+                    <li class="page-item ${i === currentPageIndex ? 'active' : ''}">
+                        <a class="page-link" href="#" data-page="${i}">${i}</a>
+                    </li>`;
+            } else if (!pagesHtml.includes('...')) {
+                pagesHtml += `
+                    <li class="page-item disabled">
+                        <span class="page-link">...</span>
+                    </li>`;
+            }
+        }
+
+        paginationContainer.innerHTML += pagesHtml;
+    }
+
+
+        function updateShowingInfo(totalRecords, currentBatchSize) {
+            if (totalRecords === 0) {
+                showingInfoText.textContent = 'No results found';
+                return;
+            }
+            const startRecord = (currentPageIndex - 1) * PageSize + 1;
+            const endRecord = startRecord + currentBatchSize - 1;
+            showingInfoText.textContent = `Showing ${startRecord} to ${endRecord} of ${totalRecords} results found`;
+        }
+
+        function setLoadingState() {
+            userDataBody.innerHTML = `<tr><td colspan="13" class="text-center"><div class="spinner-border spinner-border-sm" role="status"></div> Loading...</td></tr>`;
+        }
+
+        function handleAuthFailure() {
+            userDataBody.innerHTML = `<tr><td colspan="13" class="text-center text-danger">Authorization failed. Please log in again.</td></tr>`;
+        }
+
+        function handleFetchError(error) {
+            console.error('Fetch error:', error);
+            userDataBody.innerHTML = `<tr><td colspan="13" class="text-center text-danger">Failed to load data: ${error.message}</td></tr>`;
+        }
+
+        // --- EVENT LISTENERS ---
+        searchInput.addEventListener('blur', function () {
+            const mobileNumber = this.value.trim();
+            if (mobileNumber.length > 0) {
+                fetchSearchResults(1, mobileNumber);
+            } else {
+                currentPageIndex = 1;
+                fetchAllUsers();
+            }
+        });
+
+
+
+
+        paginationContainer.addEventListener('click', (event) => {
+            event.preventDefault();
+            const pageLink = event.target.closest('a.page-link');
+            if (pageLink && pageLink.dataset.page) {
+                const page = parseInt(pageLink.dataset.page, 10);
+                const searchTerm = searchInput.value.trim();
+                debugger
+                if (page > 0) {
+                    if (searchTerm) {
+                        fetchSearchResults(page, searchTerm);
+                    } else {
+                        currentPageIndex = page;
+                        fetchAllUsers();
+                    }
+                }
+            }
+        });
+
+        userDataBody.addEventListener('click', function (event) {
+            const editButton = event.target.closest('.edit-btn');
+            if (!editButton) return;
+
+            const userIdToEdit = parseInt(editButton.dataset.userid, 10);
+            const userToEdit = currentUsersData.find(user => user.userID === userIdToEdit);
+
+            if (userToEdit) {
+                sessionStorage.setItem('userToEdit', JSON.stringify(userToEdit));
+                window.location.href = '/Home/EditUserDetails';
+            } else {
+                console.error('User not found in current data:', userIdToEdit);
+                alert('Could not find user data to edit.');
+            }
+        });
+
+        // --- INITIAL DATA LOAD ---
+        fetchAllUsers();
+    });
+
+  </script>
 }
