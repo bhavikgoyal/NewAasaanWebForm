@@ -9,6 +9,102 @@
 	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="~/css/site.css">
 }
+<style>
+
+	header {
+		width: 100%;
+		background: #fff;
+		display: flex;
+		justify-content: space-between !important;
+		padding: 8px 10px;
+		position: fixed;
+		z-index: 555;
+	}
+
+	.dropdown {
+		position: relative;
+		display: inline-block;
+	}
+
+	.dropdown-button {
+		padding: 10px 20px;
+		background-color: transparent;
+		color: #000;
+		border: none;
+		cursor: pointer;
+		font-size: 16px;
+		border-radius: 5px;
+	}
+
+	.dropdown-menu {
+		display: none;
+		position: absolute;
+		top: 100%;
+		left: 0;
+		background-color: white;
+		box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+		min-width: 160px;
+		z-index: 1;
+		border-radius: 5px;
+		overflow: hidden;
+	}
+
+		.dropdown-menu a {
+			padding: 12px 16px;
+			display: block;
+			text-decoration: none;
+			color: #333;
+		}
+
+			.dropdown-menu a:hover {
+				background-color: #f1f1f1;
+			}
+
+	.dropdown:hover .dropdown-menu {
+		display: block;
+	}
+
+	.header-actions .dropdown-menu {
+		width: 90%;
+		margin-left: 6%;
+	}
+
+	i.fa-solid.fa-lock {
+		margin-right: 4px;
+		margin-left: -2%;
+	}
+
+	button:focus:not(:focus-visible) {
+		outline: 0;
+		border-color: transparent !important;
+		box-shadow: 0 0 0 .25rem rgba(0, 0, 0, .0) !important;
+	}
+
+	i.fa-solid.fa-arrow-right-from-bracket {
+		margin-right: 4px;
+		margin-left: -2%;
+	}
+
+
+	@@media only screen and (max-width: 1690px) {
+		.dropdown {
+			margin-right: 6rem;
+		}
+	}
+
+	@@media only screen and (max-width: 991px) {
+		div #headerContainer {
+			left: 0% !important;
+		}
+	}
+
+	@@media only screen and (max-width: 320px) {
+		.dropdown-button {
+			font-size: 13px !important;
+		}
+	}
+
+</style>
 
 <div class="page-wrapper">
 	<aside id="sidebar" class="sidebar d-none d-lg-block">
@@ -30,39 +126,53 @@
 					<span>User Profile</span>
 				</a>
 			</li>
+			<li class="nav-item">
+				<a href="/Home/AppGroups" class="nav-link">
+					<i class="fa-solid fa-user"></i>
+					<span>App Groups</span>
+				</a>
+			</li>
 		</ul>
 	</aside>
 </div>
 <div class="main-content">
-  <header>
-    <div>
-      <div>
-        <button class="main_button">
-          <i class="fa-solid fa-bars"></i>
-        </button>
-        <button class="btn" type="button"
-                data-bs-toggle="offcanvas"
-                data-bs-target="#mobile-sidebar"
-                aria-controls="mobile-sidebar">
-          <i class="fa-solid fa-bars"></i>
-        </button>
-      </div>
-    </div>
+	<header>
+		<div>
+			<div>
+				<button class="main_button">
+					<i class="fa-solid fa-bars"></i>
+				</button>
+				<button class="btn" type="button"
+								data-bs-toggle="offcanvas"
+								data-bs-target="#mobile-sidebar"
+								aria-controls="mobile-sidebar">
+					<i class="fa-solid fa-bars"></i>
+				</button>
+			</div>
+		</div>
 
-    <div id="headerContainer" style="position: relative; left: -15%;">
-      <div class="header-actions">
-        <p class="mb-0 me-3 d-none d-sm-block">Welcome, <strong>@User.Identity.Name</strong></p>
-        <div class="dropdown">
-          <form asp-action="Logout" asp-controller="Home" method="get">
-            <button type="submit" class="btn btn-link text-decoration-none d-flex align-items-center gap-2" style="color: inherit;">
-              <i class="fa-solid fa-arrow-right-from-bracket"></i>
-              <span class="d-sm-inline">Logout</span>
-            </button>
-          </form>
-        </div>
-      </div>
-    </div>
-  </header>
+			<div id="headerContainer" style="position: relative; left: -16%;">
+				<div class="header-actions">
+					<div class="dropdown">
+						<button class="dropdown-button">
+							Welcome, <strong>@User.Identity.Name</strong> <i class="fa-solid fa-angle-down"></i>
+						</button>
+						<div class="dropdown-menu">
+							<a href="#" id="changePasswordBtn"><i class="fa-solid fa-lock"></i> Change Password</a>
+
+						<a href="/Home/Logout" style="padding: 12px 16px;
+										display: block;
+										text-decoration: none;
+										color: #333;">
+									<i class="fa-solid fa-arrow-right-from-bracket"></i>
+									Logout
+							</a>
+							
+						</div>
+					</div>
+				</div>
+			</div>
+	</header>
 </div>
 
 <div class="offcanvas offcanvas-start" tabindex="-1" id="mobile-sidebar" aria-labelledby="mobile-sidebar-label">
@@ -84,17 +194,30 @@
 					<span>User Profile</span>
 				</a>
 			</li>
+			<li class="nav-item">
+				<a href="/Home/AppGroups" class="nav-link active">
+					<i class="fa-solid fa-user"></i>
+					<span>App Groups</span>
+				</a>
+			</li>
 		</ul>
 	</div>
 </div>
 
 @section Scripts {
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-	<script src="~/js/dashboardScript.js"></script>
 
 	<script>
+		// Toggle dropdown on any click
+		const changeButton = document.getElementById('changePasswordBtn');
 
-				document.querySelectorAll('.main_button').forEach(button => {
+		window.addEventListener("click", function () {
+			const dropdown = document.getElementById("dropdownMenu");
+
+			dropdown.classList.toggle("show");
+		});
+
+		document.querySelectorAll('.main_button').forEach(button => {
 				button.addEventListener('click', () => {
 						const sidebar = document.getElementById('sidebar');
 						const mainContent = document.querySelector('.main-content');
@@ -116,5 +239,11 @@
 				}
 			});
 		});
+
+		changeButton.addEventListener('click', function (event) {
+			debugger
+				window.location.href = '/Home/CheckPassword';			
+		});
+
 	</script>
 }

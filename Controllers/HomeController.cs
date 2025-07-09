@@ -61,13 +61,37 @@ namespace Aasaan_Admin_Form.Controllers
     }
 
     [HttpGet]
+    public IActionResult AppGroups()
+    {
+      string apiurl = _configuration["ApiSetting:BaseUser"];
+      ViewBag.ApiUrl = apiurl;
+      return View();
+    }
+
+    [HttpGet]
+    public IActionResult EditAppGroups()
+    {
+      string apiurl = _configuration["ApiSetting:BaseUser"];
+      ViewBag.ApiUrl = apiurl;
+      return View();
+    }
+
+    [HttpGet]
+    public IActionResult CheckPassword()
+    {
+      string apiurl = _configuration["ApiSetting:BaseUser"];
+      ViewBag.ApiUrl = apiurl;
+      return View();
+    }
+
+    [HttpGet]
     public IActionResult Login()
     {
       string apiurl = _configuration["ApiSetting:BaseUser"];
       ViewBag.ApiUrl = apiurl;
       if (User.Identity != null && User.Identity.IsAuthenticated)
       {
-        return RedirectToAction("Index", "Home");
+        return RedirectToAction("Homepage", "Home");
       }
       return View(new LoginModel());
     }
@@ -85,10 +109,10 @@ namespace Aasaan_Admin_Form.Controllers
       }
 
       var claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.Name, username),
-                new Claim("ApiToken", token)
-            };
+      {
+          new Claim(ClaimTypes.Name, username),
+          new Claim("ApiToken", token)
+      };
 
       var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
@@ -107,7 +131,7 @@ namespace Aasaan_Admin_Form.Controllers
 
       _logger.LogInformation($"User '{username}' successfully signed in via external API callback.");
 
-      return RedirectToAction("Index", "Home");
+      return RedirectToAction("Homepage", "Home");
     }
 
 
