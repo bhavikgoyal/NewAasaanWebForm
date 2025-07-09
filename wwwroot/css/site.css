@@ -246,6 +246,7 @@ main.content-fluid {
 
 button.btn.btn-outline-secondary.btn-sm.edit-btn {
   display: block;
+  margin-top: 4px;
 }
 
 .btn_allsave_list {
@@ -272,9 +273,6 @@ a.btn.btn-secondary {
     display: none;
   }
 
-  .header {
-    justify-content: end;
-  }
 
   .main-content {
     margin-left: 0;
@@ -376,7 +374,7 @@ a.btn.btn-secondary {
   }
 
   .table tbody td {
-    padding: 1rem 1.5rem;
+    padding: 10px 15px;
     font-size: 0.9rem;
     color: #495057;
     vertical-align: middle;

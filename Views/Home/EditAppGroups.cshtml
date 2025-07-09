@@ -146,7 +146,7 @@
 	</div>
 	<div class="edit-form-card">
 		<div class="mb-4">
-			<h3 class="mb-0">Edit User Details - <span id="headerMobileNumber"></span></h3>
+			<h3 class="mb-0">Edit Applicaation Group Details - <span id="headerMobileNumber"></span></h3>
 		</div>
 		<form id="editUserForm">
 			<div class="row g-3">
@@ -174,13 +174,13 @@
 						<button type="button" class="btn btn-primary" id="extendDaysBtn">Extend&nbsp;days</button>
 					</div>
 				</div>
-				
+
 			</div>
 
 			<div class="btn_allsave_list mt-4">
 				<button type="submit" class="btn btn-primary" id="saveBtn">Save Changes</button>
 				<button type="button" id="deleteUserButton" class="btn-danger">Delete</button>
-				<a href="/Home/Userprofile" class="btn-secondary">Back</a>
+				<a onclick="history.back()" class="btn-secondary">Back</a>
 			</div>
 			<!-- Generic Message Modal -->
 			<div class="modal fade" id="messageModal" tabindex="-1" aria-labelledby="messageModalLabel" aria-hidden="true">
@@ -224,26 +224,26 @@
 </div>
 
 <div class="modal fade" id="extendDaysModal" tabindex="-1" aria-labelledby="extendDaysModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="extendDaysModalLabel">Extend Subscription</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <p>Current Expiry Date: <strong id="currentExpiryDateInModal"></strong></p>
-                <div class="mb-3">
-                    <label for="daysToExtend" class="form-label">Number of days to extend:</label>
-                    <input type="number" class="form-control" id="daysToExtend" placeholder="" min="1" step="1">
-                </div>
-                 <p class="mt-2">New Expiry Date will be: <strong id="newExpiryDatePreview"></strong></p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary" id="confirmExtendBtn">Apply Extension</button>
-            </div>
-        </div>
-    </div>
+	<div class="modal-dialog modal-dialog-centered">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="extendDaysModalLabel">Extend Subscription</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<p>Current Expiry Date: <strong id="currentExpiryDateInModal"></strong></p>
+				<div class="mb-3">
+					<label for="daysToExtend" class="form-label">Number of days to extend:</label>
+					<input type="number" class="form-control" id="daysToExtend" placeholder="" min="1" step="1">
+				</div>
+				<p class="mt-2">New Expiry Date will be: <strong id="newExpiryDatePreview"></strong></p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+				<button type="button" class="btn btn-primary" id="confirmExtendBtn">Apply Extension</button>
+			</div>
+		</div>
+	</div>
 </div>
 
 @section Scripts {
@@ -252,7 +252,7 @@
 
 				const token = '@User.FindFirst("ApiToken")?.Value';
 				const baseApiUrl = '@ViewBag.ApiUrl';
-				const userDataString = sessionStorage.getItem('userToEdit');
+				const userDataString = sessionStorage.getItem('appUserToEdit');
 				let originalUserData = null;
 				const extendDaysBtn = document.getElementById('extendDaysBtn');
 				const deleteConfirmModalElement = document.getElementById('deleteConfirmModal');
@@ -290,27 +290,27 @@
 						extendDaysModal.show();
 				});
 
-			daysToExtendInput.addEventListener('input', function() {
-				const days = parseInt(this.value, 10);
-				const currentExpiryDateStr = document.getElementById('subscriptionExpiryDate').value; 
+				daysToExtendInput.addEventListener('input', function() {
+					const days = parseInt(this.value, 10);
+					const currentExpiryDateStr = document.getElementById('subscriptionExpiryDate').value;
 
-				if (days > 0 && currentExpiryDateStr) {
-						const dateParts = currentExpiryDateStr.split('-');
-						if (dateParts.length !== 3) {
-								document.getElementById('newExpiryDatePreview').textContent = 'Invalid Date';
-								return;
-						}
-						const year = parseInt(dateParts[0], 10);
-						const month = parseInt(dateParts[1], 10) - 1; 
-						const day = parseInt(dateParts[2], 10);
-						const currentExpiryDate = new Date(year, month, day);
-						currentExpiryDate.setDate(currentExpiryDate.getDate() + days);
-						document.getElementById('newExpiryDatePreview').textContent = currentExpiryDate.toLocaleDateString('en-GB');
+					if (days > 0 && currentExpiryDateStr) {
+							const dateParts = currentExpiryDateStr.split('-');
+							if (dateParts.length !== 3) {
+									document.getElementById('newExpiryDatePreview').textContent = 'Invalid Date';
+									return;
+							}
+							const year = parseInt(dateParts[0], 10);
+							const month = parseInt(dateParts[1], 10) - 1;
+							const day = parseInt(dateParts[2], 10);
+							const currentExpiryDate = new Date(year, month, day);
+							currentExpiryDate.setDate(currentExpiryDate.getDate() + days);
+							document.getElementById('newExpiryDatePreview').textContent = currentExpiryDate.toLocaleDateString('en-GB');
 
-				} else {
-						document.getElementById('newExpiryDatePreview').textContent = '...';
-				}
-			});
+					} else {
+							document.getElementById('newExpiryDatePreview').textContent = '...';
+					}
+				});
 
 				confirmExtendBtn.addEventListener('click', function () {
 						const days = parseInt(daysToExtendInput.value, 10);
@@ -358,7 +358,7 @@
 
 				messageModalElement.addEventListener('hidden.bs.modal', function () {
 						if (redirectOnClose) {
-								window.location.href = '@Url.Action("Userprofile", "Home")';
+								window.location.href = '@Url.Action("AppGroups", "Home")';
 						}
 				});
 
@@ -475,7 +475,7 @@
 						};
 
 						try {
-								const response = await fetch(`${baseApiUrl}/api/Admin/UpdateUser/`, {
+								const response = await fetch(`${baseApiUrl}/api/Admin/ApplicationGroupeUpdate/`, {
 										method: 'POST',
 										headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
 										body: JSON.stringify(updatedData)
@@ -486,7 +486,7 @@
 										throw new Error(`API Error (${response.status}): ${errorText}`);
 								}
 
-								showMessageModal('Success', 'User details updated successfully!', false);
+								showMessageModal('Success', 'User group details updated successfully!', false);
 
 						} catch (error) {
 								console.error('Failed to update user:', error);
@@ -505,7 +505,6 @@
 				debugger
 				deleteConfirmModal.hide();
 				const userId = originalUserData.userID;
-				const appcode =originalUserData.appCode
 				if (!userId) {
 						showMessageModal('Error', 'Cannot delete user: User ID is missing.', true);
 						return;
@@ -515,7 +514,7 @@
 				deleteButton.textContent = 'Deleting...';
 
 				try {
-						const response = await fetch(`${baseApiUrl}/api/Admin/DeleteUsersRegisteredRecord?UserID=${userId}&Appcode=${appcode}`, {
+						const response = await fetch(`${baseApiUrl}/api/Admin/DeleteUsersRegisteredRecord?UserID=${userId}`, {
 								method: 'DELETE',
 								headers: {
 										'Authorization': `Bearer ${token}`

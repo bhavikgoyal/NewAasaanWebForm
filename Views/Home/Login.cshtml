@@ -182,7 +182,7 @@
             const email = document.getElementById('Username').value;
             const password = document.getElementById('Password').value;
 
-            const apiUrl = new URL(`${baseApiUrl}/api/Account/LogIn`);
+            const apiUrl = new URL(`${baseApiUrl}/api/Account/AdminLogIn`);
             apiUrl.searchParams.append('Email', email);
             apiUrl.searchParams.append('Password', password);
             debugger
@@ -197,9 +197,12 @@
                     if (data?.data?.token) {
                         const token = data.data.token;
                         const userEmail = data.data.email;
+
+                        sessionStorage.setItem('userid', data.data.userID);
+
                         window.location.href = `/Home/ExternalLoginCallback?token=${encodeURIComponent(token)}&username=${encodeURIComponent(userEmail)}`;
                     } else {
-                        errorMessageDiv.textContent = 'Login successful, but token was not provided.';
+                        errorMessageDiv.textContent = data?.message;
                     }
                 } else {
                     errorMessageDiv.textContent = 'Invalid email or password.';
