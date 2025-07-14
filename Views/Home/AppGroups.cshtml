@@ -8,192 +8,163 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="~/css/site.css">
-}
-<style>
+	<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
-	header {
-		width: 100%;
-		background: #fff;
-		display: flex;
-		justify-content: space-between !important;
-		padding: 8px 10px;
-		position: fixed;
-		z-index: 555;
-	}
-
-	.table-striped tbody tr:nth-of-type(odd){
-		border: 1px solid #ddd;
-	}
-
-	.table tbody td{
-		border-bottom: 1px solid #ddd;
-	}
-
-	tbody, td, tfoot, th, thead, tr{
-		border-bottom: 1px solid #ddd;
-	}
-
-	.table.align-middle tbody td{
-		padding: 18px 15px !important;
-	}
-
-	button.btn.btn-outline-secondary.btn-sm.edit-btn {
-		display: block;
-		margin-top: 11px !important;
-		margin-left: 9% !important
-	}
-
-
-	.dropdown {
-		position: relative;
-		display: inline-block;
-	}
-
-	.dropdown-button {
-		padding: 10px 20px;
-		background-color: transparent;
-		color: #000;
-		border: none;
-		cursor: pointer;
-		font-size: 16px;
-		border-radius: 5px;
-	}
-
-	.dropdown-menu {
-		display: none;
-		position: absolute;
-		top: 100%;
-		left: 0;
-		background-color: white;
-		box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-		min-width: 160px;
-		z-index: 1;
-		border-radius: 5px;
-		overflow: hidden;
-	}
-
-		.dropdown-menu a {
-			padding: 12px 16px;
-			display: block;
-			text-decoration: none;
-			color: #333;
+	<style>
+		header {
+			width: 100%;
+			background: #fff;
+			display: flex;
+			justify-content: space-between !important;
+			padding: 8px 10px;
+			position: fixed;
+			z-index: 555;
 		}
 
-			.dropdown-menu a:hover {
-				background-color: #f1f1f1;
+		.table-striped tbody tr:nth-of-type(odd) {
+			border: 1px solid #ddd;
+		}
+
+		.table tbody td, tbody, td, tfoot, th, thead, tr {
+			border-bottom: 1px solid #ddd;
+		}
+
+		.table.align-middle tbody td {
+			padding: 18px 15px !important;
+		}
+
+		button.btn.btn-outline-secondary.btn-sm.edit-btn {
+			display: block;
+			margin-top: 11px !important;
+			margin-left: 9% !important;
+		}
+
+		.dropdown {
+			position: relative;
+			display: inline-block;
+		}
+
+		.dropdown-button {
+			padding: 10px 20px;
+			background-color: transparent;
+			color: #000;
+			border: none;
+			cursor: pointer;
+			font-size: 16px;
+			border-radius: 5px;
+		}
+
+		.dropdown-menu {
+			display: none;
+			position: absolute;
+			top: 100%;
+			left: 0;
+			background-color: white;
+			box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+			min-width: 160px;
+			z-index: 1056;
+			border-radius: 5px;
+			overflow: hidden;
+		}
+
+			.dropdown-menu a {
+				padding: 12px 16px;
+				display: block;
+				text-decoration: none;
+				color: #333;
 			}
 
-	.dropdown:hover .dropdown-menu {
-		display: block;
-	}
+				.dropdown-menu a:hover {
+					background-color: #f1f1f1;
+				}
 
-	.header-actions .dropdown-menu {
-		width: 90%;
-		margin-left: 6%;
-	}
-
-	i.fa-solid.fa-lock {
-		margin-right: 4px;
-		margin-left: -2%;
-	}
-
-	button:focus:not(:focus-visible) {
-		outline: 0;
-		border-color: transparent !important;
-		box-shadow: 0 0 0 .25rem rgba(0, 0, 0, .0) !important;
-	}
-
-	i.fa-solid.fa-arrow-right-from-bracket {
-		margin-right: 4px;
-		margin-left: -2%;
-	}
-
-
-	@@media only screen and (max-width: 1690px) {
-		.dropdown {
-			margin-right: 6rem;
+		.dropdown:hover .dropdown-menu {
+			display: block;
 		}
-	}
 
-	@@media only screen and (max-width: 991px) {
-		div #headerContainer {
-			left: 0% !important;
+		i.fa-solid.fa-lock {
+			margin-right: 4px;
+			margin-left: -2%;
 		}
-	}
 
-	@@media only screen and (max-width: 320px) {
-		.dropdown-button {
-			font-size: 13px !important;
+		button:focus:not(:focus-visible) {
+			outline: 0;
+			border-color: transparent !important;
+			box-shadow: 0 0 0 .25rem rgba(0, 0, 0, .0) !important;
 		}
-	}
 
-</style>
+		i.fa-solid.fa-arrow-right-from-bracket {
+			margin-right: 4px;
+			margin-left: -2%;
+		}
 
+		.groups {
+			display: flex;
+			justify-content: end;
+		}
+
+		.select2-container {
+			width: 100% !important;
+		}
+
+		.select2-container--default .select2-selection--single {
+			height: 38px;
+			padding: 6px 12px;
+			border: 1px solid #ced4da;
+		}
+
+		.select2-container--default .select2-selection--multiple {
+			border: 1px solid #ced4da;
+			min-height: 38px;
+		}
+
+		.select2-container--default .select2-selection--single .select2-selection__arrow {
+			height: 36px;
+		}
+
+		@@media only screen and (max-width: 1690px) {
+			.dropdown {
+				margin-right: 6rem;
+			}
+		}
+
+		@@media only screen and (max-width: 991px) {
+			div #headerContainer {
+				left: 0% !important;
+			}
+		}
+
+		@@media (max-width:767px) {
+			.sm-Margin {
+				margin-bottom: 1rem;
+			}
+		}
+	</style>
+}
 
 <div class="page-wrapper">
-	<!-- Desktop Sidebar -->
 	<aside id="sidebar" class="sidebar d-none d-lg-block">
-		<div class="sidebar-header">
-			<span class="brand-name">
-				<img src="~/image/logo 3.png" />
-			</span>
-		</div>
+		<div class="sidebar-header"><span class="brand-name"><img src="~/image/logo 3.png" /></span></div>
 		<ul class="sidebar-nav">
-			<li class="nav-item">
-				<a href="/Home/Homepage" class="nav-link">
-					<i class="fa-solid fa-house"></i>
-					<span>Home</span>
-				</a>
-			</li>
-			<li class="nav-item">
-				<a href="/Home/Userprofile" class="nav-link ">
-					<i class="fa-solid fa-user"></i>
-					<span>User Profile</span>
-				</a>
-			</li>
-			<li class="nav-item">
-				<a href="/Home/AppGroups" class="nav-link active">
-					<i class="fa-solid fa-user"></i>
-					<span>App Groups</span>
-				</a>
-			</li>
+			<li class="nav-item"><a href="/Home/Homepage" class="nav-link"><i class="fa-solid fa-house"></i><span>Home</span></a></li>
+			<li class="nav-item"><a href="/Home/Userprofile" class="nav-link"><i class="fa-solid fa-user"></i><span>User Profile</span></a></li>
+			<li class="nav-item"><a href="/Home/AppGroups" class="nav-link active"><i class="fa-solid fa-user"></i><span>App Groups</span></a></li>
 		</ul>
 	</aside>
 
-	<!-- Main Content -->
 	<div class="main-content">
 		<header>
 			<div>
-				<div>
-					<button class="main_button">
-						<i class="fa-solid fa-bars"></i>
-					</button>
-					<button class="btn" type="button"
-									data-bs-toggle="offcanvas"
-									data-bs-target="#mobile-sidebar"
-									aria-controls="mobile-sidebar">
-						<i class="fa-solid fa-bars"></i>
-					</button>
-				</div>
+				<button class="main_button"><i class="fa-solid fa-bars"></i></button>
+				<button class="btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobile-sidebar"><i class="fa-solid fa-bars"></i></button>
 			</div>
-
 			<div id="headerContainer" style="position: relative; left: -16%;">
 				<div class="header-actions">
 					<div class="dropdown">
-						<button class="dropdown-button">
-							Welcome, <strong>@User.Identity.Name</strong> <i class="fa-solid fa-angle-down"></i>
-						</button>
+						<button class="dropdown-button">Welcome, <strong>@User.Identity.Name</strong> <i class="fa-solid fa-angle-down"></i></button>
 						<div class="dropdown-menu">
 							<a href="#" id="changePasswordBtn"><i class="fa-solid fa-lock"></i> Change Password</a>
-
-							<a href="/Home/Logout" style="padding: 12px 16px;
-									display: block;
-									text-decoration: none;
-									color: #333;">
-								<i class="fa-solid fa-arrow-right-from-bracket"></i>
-								Logout
-							</a>
-
+							<a href="/Home/Logout" style="padding: 12px 16px; display: block; text-decoration: none; color: #333;"><i class="fa-solid fa-arrow-right-from-bracket"></i>Logout</a>
 						</div>
 					</div>
 				</div>
@@ -202,359 +173,384 @@
 
 		<div class="container-fluid ps-md-5 pe-md-5">
 			<div class="data-card">
-				<div class="card-header">
-					<h3 class="card-title mb-0">Manage Groups Users</h3>
-				</div>
-
+				<div class="card-header"><h3 class="card-title mb-0">Manage Groups Users</h3></div>
 				<div class="card-filters">
 					<div class="row g-3 align-items-center">
-						<div class="col-md-6">
-							<input type="text" class="form-control" id="searchInput" placeholder="Search by Mobile Number...">
-						</div>
+						<div class="col-md-6"><input type="text" class="form-control" id="searchInput" placeholder="Search by Mobile Number..."></div>
+						<div class="col-md-6 groups"><button type="button" class="btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fa-solid fa-plus"></i> Add Groups</button></div>
 					</div>
 				</div>
-
 				<div class="table-responsive">
 					<table class="table table-striped table-hover align-middle">
 						<thead>
 							<tr>
-								<th scope="col">UserID</th>
-								<th scope="col">App Code</th>
-								<th scope="col">Device ID</th>
-								<th scope="col">Version</th>
-								<th scope="col">Platform</th>
-								<th scope="col">App Expiry Date</th>
-								<th scope="col">Action</th>
+								<th>UserID</th>
+								<th>App Code</th>
+								<th>Device ID</th>
+								<th>Version</th>
+								<th>Platform</th>
+								<th>App Expiry Date</th>
+								@* <th>Action</th> *@
 							</tr>
 						</thead>
 						<tbody id="appDataBody"></tbody>
 					</table>
 				</div>
-
 				<div class="card-footer d-flex flex-wrap justify-content-between align-items-center">
 					<small class="text-muted" id="showingInfoText">Showing 0 of 0 results found</small>
-					@* <nav aria-label="Page navigation"> *@
-					@*   <ul class="pagination custom-pagination pagination-sm mb-0" id="paginationContainer"></ul> *@
-					@* </nav> *@
-					<nav aria-label="Page navigation example">
-						<ul class="pagination" id="paginationContainer">
-							<li class="page-item active">
-								<a class="page-link active" href="#" data-page="1"></a>
-							</li>
-							<li class="page-item">
-								<a class="page-link" href="#" data-page="2"></a>
-							</li>
-							<li class="page-item">
-								<a class="page-link" href="#" data-page="3"></a>
-							</li>
-						</ul>
-					</nav>
+					<nav><ul class="pagination" id="paginationContainer"></ul></nav>
 				</div>
 			</div>
 		</div>
-
 	</div>
-
 </div>
-<div class="offcanvas offcanvas-start" tabindex="-1" id="mobile-sidebar" aria-labelledby="mobile-sidebar-label">
-	<div class="offcanvas-header">
-		<h5 class="offcanvas-title" id="mobile-sidebar-label">Menu</h5>
-		<button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h1 class="modal-title fs-5">Add Groups</h1>
+				<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+			</div>
+			<div class="modal-body">
+				<form id="addGroupForm">
+					<input type="hidden" id="selectedUserIdHidden" />
+					<div class="row g-3">
+						<div class="col-md-12"><div id="api-error-message" class="text-danger mb-3"></div></div>
+						<div class="col-md-12"><div class="mb-3"><label for="modalMobileNumberSelect" class="form-label">Search and Select Mobile Number</label><select class="form-select" id="modalMobileNumberSelect" style="width: 100%;"></select></div></div>
+						<div class="col-md-12"><div class="mb-3"><label class="form-label">App Codes</label><select class="form-select" id="modalAppCodeSelect" multiple="multiple" style="width: 100%;"></select></div></div>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn-secondary" data-bs-dismiss="modal">Close</button>
+				<button type="button" id="saveNewGroupBtn" class="btn-primary">Save changes</button>
+			</div>
+		</div>
 	</div>
-	<div class="offcanvas-body">
-		<ul class="sidebar-nav">
-			<li class="nav-item">
-				<a href="/Home/Homepage" class="nav-link">
-					<i class="fa-solid fa-house"></i>
-					<span>Home</span>
-				</a>
-			</li>
-			<li class="nav-item">
-				<a href="/Home/Userprofile" class="nav-link">
-					<i class="fa-solid fa-user"></i>
-					<span>User Profile</span>
-				</a>
-			</li>
-			<li class="nav-item">
-				<a href="/Home/AppGroups" class="nav-link active">
-					<i class="fa-solid fa-user"></i>
-					<span>App Groups</span>
-				</a>
-			</li>
-		</ul>
+</div>
+
+<div class="modal fade" id="messageModal" tabindex="-1" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered">
+		<div class="modal-content">
+			<div class="modal-header" id="messageModalHeader"><h5 class="modal-title" id="messageModalLabel">Message</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+			<div class="modal-body text-center text-black fw-semibold" id="messageModalBody"></div>
+			<div class="modal-footer"><button type="button" class="btn-secondary" data-bs-dismiss="modal">Close</button></div>
+		</div>
 	</div>
 </div>
 
 @section Scripts {
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
 	<script>
 		document.querySelectorAll('.main_button').forEach(button => {
-				button.addEventListener('click', () => {
-						const sidebar = document.getElementById('sidebar');
-						const mainContent = document.querySelector('.main-content');
-						sidebar.classList.toggle('hidden');
-						mainContent.classList.toggle('full-width');
-				});
-		});
-
-			 document.querySelectorAll('.main_button').forEach(button => {
 			button.addEventListener('click', () => {
-				const header = document.getElementById('headerContainer');
-				const currentLeft = window.getComputedStyle(header).left;
-
-				if (currentLeft === '0px') {
-					header.style.left = '-16%';
-				} else {
-					header.style.left = '0%';
-				}
+				document.getElementById('sidebar').classList.toggle('hidden');
+				document.querySelector('.main-content').classList.toggle('full-width');
 			});
 		});
 
+		$(document).ready(function () {
+			const userDataBody = $('#appDataBody');
+			const searchInput = $('#searchInput');
+			const paginationContainer = $('#paginationContainer');
+			const showingInfoText = $('#showingInfoText');
+			const token = '@User.FindFirst("ApiToken")?.Value';
+			const baseApiUrl = '@ViewBag.ApiUrl';
+			const addGroupModal = $('#exampleModal');
+			const selectedUserIdHidden = $('#selectedUserIdHidden');
+			const modalMobileNumberSelect = $('#modalMobileNumberSelect');
+			const modalAppCodeSelect = $('#modalAppCodeSelect');
+			const errorMessageDiv = $('#api-error-message');
+			const saveChangesBtn = $('#saveNewGroupBtn');
 
-			document.addEventListener('DOMContentLoaded', function () {
-				const userDataBody = document.getElementById('appDataBody');
-				const searchInput = document.getElementById('searchInput');
-				const paginationContainer = document.getElementById('paginationContainer');
-				const showingInfoText = document.getElementById('showingInfoText');
-					const changeButton = document.getElementById('changePasswordBtn');
-				const token = '@User.FindFirst("ApiToken")?.Value';
-				const baseApiUrl = '@ViewBag.ApiUrl';
+			let currentPageIndex = 1;
+			const PageSize = 50;
+			let fullUnfilteredData = null;
+			let currentUsersData = [];
 
-				let currentPageIndex = 1;
-				const PageSize = 10;
-				let currentUsersData = [];
+			const messageModal = new bootstrap.Modal(document.getElementById('messageModal'));
 
-				async function fetchAllUsers() {
-						if (!token) {
-								handleAuthFailure();
-								return;
-						}
-						setLoadingState();
-						debugger
-						try {
-								const response = await fetch(`${baseApiUrl}/api/Admin/GetAllUsersDetails?PageIndex=${currentPageIndex}&PageSize=${PageSize}`, {
-										method: 'GET',
-										headers: { 'Authorization': `Bearer ${token}` }
-								});
-
-								if (!response.ok) throw new Error(`API Error: ${response.statusText}`);
-
-								const users = await response.json();
-								debugger
-								if (users && users.length > 0) {
-										const totalRecords = users[0].totalRecords;
-										const totalPages = Math.ceil(totalRecords / PageSize);
-
-										renderTable(users);
-										updateShowingInfo(totalRecords, users.length);
-										renderPagination(currentPageIndex, totalPages);
-								} else {
-										renderTable([]);
-										showingInfoText.textContent = 'No results found.';
-										paginationContainer.innerHTML = '';
-								}
-
-						} catch (error) {
-								handleFetchError(error);
-						}
-				}
-
-				// --- FUNCTION 2: To get SEARCH results (with pagination) ---
-				async function fetchSearchResults(page, mobileNumber) {
-					debugger
-						if (!token) {
-								handleAuthFailure();
-								return;
-						}
-						setLoadingState();
-						currentPageIndex = page;
-						debugger
-						const apiUrl = new URL(`${baseApiUrl}/api/Admin/SearchUsers`);
-						apiUrl.searchParams.append('pageIndex', currentPageIndex);
-						apiUrl.searchParams.append('pageSize', PageSize);
-						apiUrl.searchParams.append('mobileNumber', mobileNumber);
-
-						try {
-								const response = await fetch(apiUrl, {
-										method: 'GET',
-										headers: { 'Authorization': `Bearer ${token}` }
-								});
-
-								if (!response.ok) throw new Error(`API Error: ${response.statusText}`);
-
-									 const result = await response.json();
-									renderTable(result);
-									debugger
-									const totalRecords = result[0].totalRecords || 0;
-									const totalPages = Math.ceil(totalRecords / PageSize);
-									renderPagination(page, totalPages);
-									updateShowingInfo(totalRecords, result.length);
-
-						} catch (error) {
-								handleFetchError(error);
-						}
-				}
-
-				function parseAndFormatDate(dateString) {
-						if (!dateString || typeof dateString !== 'string') {
-								return '-';
-						}
-						const parts = dateString.split('-');
-						if (parts.length !== 3) {
-								return 'Invalid Date';
-						}
-						const isoDateString = `${parts[2]}-${parts[1]}-${parts[0]}`;
-						const date = new Date(isoDateString);
-
-						if (isNaN(date.getTime())) {
-								return 'Invalid Date';
-						}
-
-						return date.toLocaleDateString('en-GB');
-				}
-
-				// --- HELPER FUNCTIONS ---
-				function renderTable(users) {
-						currentUsersData = users;
-						userDataBody.innerHTML = '';
-						if (!users || users.length === 0) {
-								userDataBody.innerHTML = '<tr><td colspan="13" class="text-center">No users found.</td></tr>';
-								return;
-						}
-						debugger
-						users.forEach(user => {
-								const row = document.createElement('tr');
-
-								row.innerHTML = `
-										<td>${user.userID || '-'}</td>
-										<td>${user.appCode || '-'}</td>
-										<td>${user.deviceID || '-'}</td>
-										<td>${user.appVersion || '-'}</td>
-										<td>${user.platform || '-'}</td>
-										<td>${parseAndFormatDate(user.subscriptionExpiryDate)}</td>
-										<button class="btn btn-outline-secondary btn-sm edit-btn"
-												data-userid="${user.userID}"
-												data-platform="${user.platform}">
-												<i class="fas fa-pencil-alt me-1"></i>
-										</button>
-										</td>
-								`;
-								userDataBody.appendChild(row);
-						});
-				}
-
-						function renderPagination(currentPageIndex, totalPages) {
-								debugger;
-								paginationContainer.innerHTML = '';
-								if (totalPages <= 1) return;
-
-								// Page Numbers with ellipsis
-								let pagesHtml = '';
-								for (let i = 1; i <= totalPages; i++) {
-										if (
-												i === currentPageIndex ||
-												i <= 2 ||
-												i >= totalPages - 1 ||
-												(i >= currentPageIndex - 1 && i <= currentPageIndex + 1)
-										) {
-												pagesHtml += `
-														<li class="page-item ${i === currentPageIndex ? 'active' : ''}">
-																<a class="page-link" href="#" data-page="${i}">${i}</a>
-														</li>`;
-										} else if (!pagesHtml.includes('...')) {
-												pagesHtml += `
-														<li class="page-item disabled">
-																<span class="page-link">...</span>
-														</li>`;
-										}
-								}
-
-								paginationContainer.innerHTML += pagesHtml;
-						}
-
-
-				function updateShowingInfo(totalRecords, currentBatchSize) {
-					debugger
-						if (totalRecords === 0) {
-								showingInfoText.textContent = 'No results found';
-								return;
-						}
-						const startRecord = (currentPageIndex - 1) * PageSize + 1;
-						const endRecord = startRecord + currentBatchSize - 1;
-						showingInfoText.textContent = `Showing ${startRecord} to ${endRecord} of ${totalRecords} results found`;
-				}
-
-				function setLoadingState() {
-						userDataBody.innerHTML = `<tr><td colspan="13" class="text-center"><div class="spinner-border spinner-border-sm" role="status"></div> Loading...</td></tr>`;
-				}
-
-				function handleAuthFailure() {
-						userDataBody.innerHTML = `<tr><td colspan="13" class="text-center text-danger">Authorization failed. Please log in again.</td></tr>`;
-				}
-
-				function handleFetchError(error) {
-						console.error('Fetch error:', error);
-						userDataBody.innerHTML = `<tr><td colspan="13" class="text-center text-danger">Failed to load data: ${error.message}</td></tr>`;
-				}
-
-							// --- EVENT LISTENERS ---
-				searchInput.addEventListener('blur', function () {
-					debugger
-						const mobileNumber = this.value.trim();
-						if (mobileNumber.length > 0) {
-								fetchSearchResults(1, mobileNumber);
-						} else {
-								currentPageIndex = 1;
-								fetchAllUsers();
-						}
+			function showMessageModal(title, message, isError = false) {
+				$('#messageModalLabel').text(title);
+				$('#messageModalBody').text(message);
+				const header = $('#messageModalHeader');
+				header.removeClass('bg-success bg-danger text-white').addClass(isError ? 'bg-danger text-white' : 'bg-success text-white');
+				$('#messageModal').off('hidden.bs.modal').on('hidden.bs.modal', function () {
+					if (!isError) {
+						window.location.href = '@Url.Action("AppGroups", "Home")';
+					}
 				});
+				messageModal.show();
+			}
 
-				paginationContainer.addEventListener('click', (event) => {
-						event.preventDefault();
-						const pageLink = event.target.closest('a.page-link');
-						if (pageLink && pageLink.dataset.page) {
-								const page = parseInt(pageLink.dataset.page, 10);
-								const searchTerm = searchInput.value.trim();
-								debugger
-								if (page > 0) {
-										if (searchTerm) {
-												fetchSearchResults(page, searchTerm);
-										} else {
-												currentPageIndex = page;
-												fetchAllUsers();
-										}
-								}
-						}
-				});
-
-				userDataBody.addEventListener('click', function (event) {
-						const editButton = event.target.closest('.edit-btn');
-						if (!editButton) return;
-						debugger
-						const userIdToEdit = editButton.dataset.userid;
-						const platformToEdit = editButton.dataset.platform;
-
-						const userToEdit = currentUsersData.find(user =>
-								user.userID == userIdToEdit && user.platform === platformToEdit
-						);
-
-						if (userToEdit) {
-								sessionStorage.setItem('appUserToEdit', JSON.stringify(userToEdit));
-								window.location.href = '/Home/EditAppGroups';
-						} else {
-								console.error('User not found in current data array with UserID:', userIdToEdit, 'and Platform:', platformToEdit);
-								alert('Could not find user data to edit. Please refresh and try again.');
-						}
-				});
-
-				changeButton.addEventListener('click', function (event) {
-					debugger
-						window.location.href = '/Home/CheckPassword';
-				});
-				// --- INITIAL DATA LOAD ---
+			function resetTableView() {
+				searchInput.val('');
+				paginationContainer.show();
 				fetchAllUsers();
-		});
+			}
 
+			async function fetchAllDataForFiltering() {
+				if (fullUnfilteredData) return fullUnfilteredData;
+				try {
+					const response = await fetch(`${baseApiUrl}/api/Admin/GetAllUsersDetails?PageIndex=1&PageSize=100000`, {
+						method: 'GET', headers: { 'Authorization': `Bearer ${token}` }
+					});
+					if (!response.ok) return null;
+					fullUnfilteredData = await response.json();
+					return fullUnfilteredData;
+				} catch (error) { console.error(error); return null; }
+			}
+
+			async function fetchAllUsers() {
+				if (!token) { handleAuthFailure(); return; }
+				setLoadingState();
+				try {
+					const response = await fetch(`${baseApiUrl}/api/Admin/GetAllGroupsApplicationsDetails?PageIndex=${currentPageIndex}&PageSize=${PageSize}`, {
+						method: 'GET', headers: { 'Authorization': `Bearer ${token}` }
+					});
+					if (!response.ok) throw new Error(response.statusText);
+					const users = await response.json();
+					debugger
+					currentUsersData = users;
+					if (users && users.length > 0) {
+						renderTable(users);
+						updateShowingInfo(users[0].totalRecords, users.length);
+						renderPagination(currentPageIndex, Math.ceil(users[0].totalRecords / PageSize));
+					} else {
+						renderTable([]);
+						showingInfoText.text('No results found.');
+						paginationContainer.empty();
+					}
+				} catch (error) { handleFetchError(error); }
+			}
+
+			// async function fetchSearchResults(page, mobileNumber) {
+			// 	if (!token) { handleAuthFailure(); return; }
+			// 	setLoadingState();
+			// 	currentPageIndex = page;
+			// 	try {
+			// 		const response = await fetch(`${baseApiUrl}/api/Admin/SearchUsers?pageIndex=${page}&pageSize=${PageSize}&mobileNumber=${mobileNumber}`, {
+			// 			method: 'GET', headers: { 'Authorization': `Bearer ${token}` }
+			// 		});
+			// 		if (!response.ok) throw new Error(`API Error: ${response.statusText}`);
+			// 		const result = await response.json();
+			// 		currentUsersData = result;
+			// 		if (result && result.length > 0) {
+			// 			const totalRecords = result[0].totalRecords || 0;
+			// 			renderTable(result);
+			// 			updateShowingInfo(totalRecords, result.length);
+			// 			renderPagination(page, Math.ceil(totalRecords / PageSize));
+			// 		} else {
+			// 			renderTable([]);
+			// 			showingInfoText.text(`No results found for "${mobileNumber}".`);
+			// 			paginationContainer.empty();
+			// 		}
+			// 	} catch (error) { handleFetchError(error); }
+			// }
+
+			function renderTable(users) {
+				userDataBody.empty();
+				if (!users || users.length === 0) {
+					userDataBody.html('<tr><td colspan="7" class="text-center">No users found.</td></tr>');
+					return;
+				}
+				debugger
+				users.forEach(user => {
+					const row = `<tr>
+												<td>${user.userID || '-'}</td>
+												<td>${user.appCode || '-'}</td>
+												<td>${user.deviceID || '-'}</td>
+												<td>${user.appVersion || '-'}</td>
+												<td>${user.platform || '-'}</td>
+												<td>${parseAndFormatDate(user.expiryDateApp)}</td>
+											</tr>`;
+					userDataBody.append(row);
+				});
+			}
+
+			function parseAndFormatDate(dateString) {
+				if (!dateString) return '-';
+				const parts = dateString.split('-');
+				if (parts.length !== 3) return 'Invalid Date';
+				const date = new Date(`${parts[2]}-${parts[1]}-${parts[0]}`);
+				return isNaN(date.getTime()) ? 'Invalid Date' : date.toLocaleDateString('en-GB');
+			}
+
+			function updateDependentUI(selectedUserId) {
+				if (!fullUnfilteredData || !selectedUserId) return;
+				selectedUserIdHidden.val(selectedUserId);
+				const filteredTableData = fullUnfilteredData.filter(item => item && item.userID == selectedUserId);
+				renderTable(filteredTableData);
+				showingInfoText.text(`Showing ${filteredTableData.length} results for User ID: ${selectedUserId}`);
+				paginationContainer.hide();
+				const userSpecificAppCodes = [...new Set(filteredTableData.map(item => item.appCode).filter(Boolean))];
+				modalAppCodeSelect.empty();
+				if (userSpecificAppCodes.length > 0) {
+					userSpecificAppCodes.forEach(code => modalAppCodeSelect.append(new Option(code, code)));
+					modalAppCodeSelect.trigger('change').prop('disabled', false);
+				} else {
+					modalAppCodeSelect.trigger('change').prop('disabled', true);
+				}
+			}
+
+			function setLoadingState() { userDataBody.html(`<tr><td colspan="7" class="text-center"><div class="spinner-border spinner-border-sm"></div> Loading...</td></tr>`); }
+			function handleAuthFailure() { userDataBody.html(`<tr><td colspan="7" class="text-center text-danger">Authorization failed.</td></tr>`); }
+			function handleFetchError(error) { console.error('Fetch error:', error); userDataBody.html(`<tr><td colspan="7" class="text-center text-danger">Failed to load data.</td></tr>`); }
+
+			function renderPagination(currentPage, totalPages) {
+				paginationContainer.empty();
+				if (totalPages <= 1) return;
+				let html = '';
+				const delta = 1;
+				const range = [];
+				for (let i = 1; i <= totalPages; i++) {
+					if (i === 1 || i === totalPages || (i >= currentPage - delta && i <= currentPage + delta)) {
+						range.push(i);
+					}
+				}
+				let last;
+				for (const i of range) {
+					if (last && i - last > 1) {
+						html += `<li class="page-item disabled"><span class="page-link">...</span></li>`;
+					}
+					html += `<li class="page-item ${i === currentPage ? 'active' : ''}"><a class="page-link" href="#" data-page="${i}">${i}</a></li>`;
+					last = i;
+				}
+				paginationContainer.html(html);
+			}
+
+			function updateShowingInfo(totalRecords, currentBatchSize) {
+				if (totalRecords === 0) {
+					showingInfoText.text('No results found');
+					return;
+				}
+				const startRecord = (currentPageIndex - 1) * PageSize + 1;
+				const endRecord = startRecord + currentBatchSize - 1;
+				showingInfoText.text(`Showing ${startRecord} to ${endRecord} of ${totalRecords} results found`);
+			}
+
+			modalMobileNumberSelect.select2({
+				dropdownParent: addGroupModal,
+				placeholder: 'Search by Mobile Number or User ID',
+				ajax: {
+					url: `${baseApiUrl}/api/Admin/GetAllUsersDetails`,
+					dataType: 'json',
+					delay: 250,
+					headers: { 'Authorization': `Bearer ${token}` },
+					data: params => ({
+						SearchTerm: params.term, PageIndex: params.page || 1, PageSize: 20
+					}),
+					processResults: (data, params) => {
+						params.page = params.page || 1;
+						return {
+							results: (data || []).map(item => ({
+								id: item.userID,
+								text: `${item.mobileNumber} (ID: ${item.userID})`
+							})),
+							pagination: { more: (params.page * 20) < (data[0]?.totalRecords || 0) }
+						};
+					},
+					cache: true
+				}
+			});
+
+			modalAppCodeSelect.select2({
+				dropdownParent: addGroupModal,
+				placeholder: 'Select one or more apps',
+				allowClear: true
+			});
+
+			modalMobileNumberSelect.on('select2:select', async function (e) {
+				await fetchAllDataForFiltering();
+				updateDependentUI(e.params.data.id);
+			});
+
+			addGroupModal.on('show.bs.modal', function () {
+				modalMobileNumberSelect.val(null).trigger('change');
+				modalAppCodeSelect.empty().trigger('change').prop('disabled', true);
+				selectedUserIdHidden.val('');
+				errorMessageDiv.text('');
+			});
+
+			addGroupModal.on('hide.bs.modal', resetTableView);
+
+			saveChangesBtn.on('click', async function () {
+				const self = $(this);
+				const selectedUserId = selectedUserIdHidden.val();
+				const selectedMobileNumberData = modalMobileNumberSelect.select2('data')[0];
+				const selectedMobileNumber = selectedMobileNumberData ? selectedMobileNumberData.text.split('(')[0].trim() : '';
+				const selectedAppCodes = modalAppCodeSelect.val();
+				debugger
+				errorMessageDiv.text('');
+				if (!selectedUserId) { errorMessageDiv.text('Please select a Mobile Number!'); return; }
+				if (!selectedAppCodes || selectedAppCodes.length < 2) {
+					errorMessageDiv.text('Please select at least two App Codes to form a group!'); return;
+				}
+
+				const updatedData = {
+					userID: selectedUserId,
+					mobileNumber: selectedMobileNumber,
+					appCodes: selectedAppCodes
+				};
+
+				self.prop('disabled', true).html('<span class="spinner-border spinner-border-sm"></span> Saving...');
+
+				try {
+					const response = await fetch(`${baseApiUrl}/api/Admin/UpdateGroupeNameInGroupOfApplication`, {
+						method: 'POST',
+						headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+						body: JSON.stringify(updatedData)
+					});
+					const result = await response.json();
+					if (!response.ok) throw new Error(result.message || 'API request failed');
+					showMessageModal('Success', result.length > 0 ? result[0].message : "You created group successfully!");
+				} catch (error) {
+					showMessageModal('Update Failed', error.message, true);
+				} finally {
+					self.prop('disabled', false).text('Save changes');
+				}
+			});
+
+			$('#changePasswordBtn').on('click', () => window.location.href = '/Home/CheckPassword');
+
+			searchInput.on('blur', function () {
+				const searchTerm = $(this).val().trim();
+				if (searchTerm.length > 0) {
+					fetchSearchResults(1, searchTerm);
+				} else {
+					resetTableView();
+				}
+			});
+
+			paginationContainer.on('click', 'a.page-link', function (e) {
+				e.preventDefault();
+				const page = parseInt($(this).data('page'));
+				const searchTerm = searchInput.val().trim();
+				if (searchTerm.length > 0) {
+					fetchSearchResults(page, searchTerm);
+				} else {
+					currentPageIndex = page;
+					fetchAllUsers();
+				}
+			});
+
+			// userDataBody.on('click', '.edit-btn', function () {
+			// 	const userId = $(this).data('userid');
+			// 	const platform = $(this).data('platform');
+			// 	const userToEdit = currentUsersData.find(u => u.userID == userId && u.platform === platform);
+			// 	if (userToEdit) {
+			// 		sessionStorage.setItem('appUserToEdit', JSON.stringify(userToEdit));
+			// 		window.location.href = '/Home/EditAppGroups';
+			// 	} else {
+			// 		alert('Could not find user data to edit.');
+			// 	}
+			// });
+
+			fetchAllUsers();
+		});
 	</script>
 }
